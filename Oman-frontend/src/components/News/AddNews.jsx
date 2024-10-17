@@ -78,7 +78,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
       //   }
       // }
       const formData = {
-        tag: data.tag,
+        tag: data.category.value,
         title: {
           en: data.en_title,
           ar: data.ar_title,
