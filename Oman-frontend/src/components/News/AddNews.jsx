@@ -61,27 +61,36 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      let imageUrl = data?.image || "";
+      // let imageUrl = data?.image || "";
 
-      if (imageFile) {
-        try {
-          imageUrl = await new Promise((resolve, reject) => {
-            uploadFileToS3(
-              imageFile,
-              (location) => resolve(location),
-              (error) => reject(error)
-            );
-          });
-        } catch (error) {
-          console.error("Failed to upload image:", error);
-          return;
-        }
-      }
+      // if (imageFile) {
+      //   try {
+      //     imageUrl = await new Promise((resolve, reject) => {
+      //       uploadFileToS3(
+      //         imageFile,
+      //         (location) => resolve(location),
+      //         (error) => reject(error)
+      //       );
+      //     });
+      //   } catch (error) {
+      //     console.error("Failed to upload image:", error);
+      //     return;
+      //   }
+      // }
       const formData = {
-        category: data.category.value,
-        title: data.title,
-        media: imageUrl ? imageUrl : "",
-        content: data.content,
+        tag: data.tag,
+        title: {
+          en: data.en_title,
+          ar: data.ar_title,
+        },
+        content: {
+          en: data.en_content,
+          ar: data.ar_content,
+        },
+        image:
+          "https://www.geolifecare.com/assets/upload/category/1555006667238.jpg",
+        banner:
+          "https://img.freepik.com/premium-vector/latest-news-word-concept-vector-illustration-with-blue-lines-modern-futuristic-3d-style_737072-111.jpg",
       };
       if (isUpdate && id) {
         await updateNews(id, formData);
@@ -188,7 +197,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
               name="image"
               control={control}
               defaultValue=""
-              rules={{ required: "File is required" }}
+              // rules={{ required: "File is required" }}
               render={({ field: { onChange, value } }) => (
                 <>
                   <StyledEventUpload
@@ -218,7 +227,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
               name="image"
               control={control}
               defaultValue=""
-              rules={{ required: "File is required" }}
+              // rules={{ required: "File is required" }}
               render={({ field: { onChange, value } }) => (
                 <>
                   <StyledEventUpload
@@ -268,7 +277,8 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
               rules={{ required: "Content in Arabic required" }}
               render={({ field }) => (
                 <>
-                  <StyledMultilineTextField textAlign="right"
+                  <StyledMultilineTextField
+                    textAlign="right"
                     placeholder="أضف وصفًا في أقل من 500 كلمة"
                     {...field}
                   />

@@ -25,12 +25,12 @@ const BASE_PATH = `/api/${API_VERSION}`;
 //* Import database connection module
 
 app.use(`${BASE_PATH}/admin`, adminRoute);
-app.use("/career", careerRoute);
-app.use("/event", eventRoute);
-app.use("/news", newsRoute);
-app.use("/product", productRoute);
-app.use("/report", reportRoute);
-app.use("/user", userRoute);
+app.use(`${BASE_PATH}/career`, careerRoute);
+app.use(`${BASE_PATH}/event`, eventRoute);
+app.use(`${BASE_PATH}/news`, newsRoute);
+app.use(`${BASE_PATH}/product`, productRoute);
+app.use(`${BASE_PATH}/report`, reportRoute);
+app.use(`${BASE_PATH}/user`, userRoute);
 require("./src/helpers/connection");
 //? Define a route for the API root
 app.get(BASE_PATH, (req, res) => {
