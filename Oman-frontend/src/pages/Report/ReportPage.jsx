@@ -8,13 +8,15 @@ import { toast } from "react-toastify";
 import { useListStore } from "../../store/listStore";
 import { reportColumns } from "../../assets/json/TableData";
 import { useReportStore } from "../../store/reportStore";
+import ReportView from "../../components/Report/ReportView";
 
 const ReportPage = () => {
   const navigate = useNavigate();
-  const { deleteReports } = useReportStore();
+  const { deleteReports, fetchReportById, singleReport } = useReportStore();
   const { fetchReport } = useListStore();
   const [pageNo, setPageNo] = useState(1);
   const [row, setRow] = useState(10);
+  const [open, setOpen] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
   const [isChange, setIsChange] = useState(false);
   useEffect(() => {
@@ -46,6 +48,13 @@ const ReportPage = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+  const handleView = async (id) => {
+    await fetchReportById(id);
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
   };
   return (
     <>
@@ -97,6 +106,7 @@ const ReportPage = () => {
                 state: { reportId: id, isUpdate: true },
               });
             }}
+            onView={handleView}
             pageNo={pageNo}
             setPageNo={setPageNo}
             onSelectionChange={handleSelectionChange}
@@ -105,6 +115,7 @@ const ReportPage = () => {
             setRowPerSize={setRow}
             onDeleteRow={handleRowDelete}
           />
+          <ReportView open={open} onClose={handleClose} data={singleReport} />
         </Box>
       </Box>
     </>

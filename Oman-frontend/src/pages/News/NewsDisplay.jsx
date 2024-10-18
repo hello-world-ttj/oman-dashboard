@@ -134,7 +134,7 @@ export default function NewsDisplay() {
       >
         <StyledTable
           columns={newsColumns}
-          
+          onView={handlePreview}
           onDelete={handleDelete}
           onDeleteRow={handleRowDelete}
           onSelectionChange={handleSelectionChange}
@@ -144,7 +144,7 @@ export default function NewsDisplay() {
           rowPerSize={row}
           setRowPerSize={setRow}
         />{" "}
-      
+      <NewsPreview open={previewOpen} onClose={handleClosePreview} data={singleNews} />
       </Box>
     </>
   );

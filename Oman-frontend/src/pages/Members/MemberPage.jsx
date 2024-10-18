@@ -8,12 +8,15 @@ import { useNavigate } from "react-router-dom";
 import DeleteProfile from "../../components/Member/DeleteProfile";
 import { useMemberStore } from "../../store/Memberstore";
 import { useListStore } from "../../store/listStore";
+import MemberView from "../../components/Member/MemberView";
 
 const MemberPage = () => {
   const navigate = useNavigate();
   const { fetchMember } = useListStore();
+  const { fetchMemberById, member } = useMemberStore();
   const [search, setSearch] = useState("");
   const [isChange, setIschange] = useState(false);
+  const [open, setOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [memberId, setMemberId] = useState(null);
   const [pageNo, setPageNo] = useState(1);
@@ -37,6 +40,9 @@ const MemberPage = () => {
   };
   const handleChange = () => {
     setIschange(!isChange);
+  };
+  const handleClose = () => {
+    setOpen(false);
   };
   return (
     <>
@@ -89,6 +95,10 @@ const MemberPage = () => {
             member
             onDeleteRow={handleRowDelete}
             pageNo={pageNo}
+            onView={async (id) => {
+              await fetchMemberById(id);
+              setOpen(true);
+            }}
             setPageNo={setPageNo}
             onModify={(id) => {
               navigate(`/members/member`, {
@@ -98,6 +108,7 @@ const MemberPage = () => {
             rowPerSize={row}
             setRowPerSize={setRow}
           />
+          <MemberView open={open} onClose={handleClose} data={member} />
           <DeleteProfile
             open={deleteOpen}
             onClose={handleCloseDelete}

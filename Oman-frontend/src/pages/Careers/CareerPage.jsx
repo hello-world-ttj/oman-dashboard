@@ -8,13 +8,15 @@ import { careerColumns } from "../../assets/json/TableData";
 import { toast } from "react-toastify";
 import { useListStore } from "../../store/listStore";
 import { useCareerStore } from "../../store/careerStore";
+import CareerView from "../../components/Career/CareerView";
 
 const CareerPage = () => {
   const navigate = useNavigate();
-  const { deleteCareers } = useCareerStore();
+  const { deleteCareers, fetchCareerById, singleCareer } = useCareerStore();
   const { fetchCareer } = useListStore();
   const [pageNo, setPageNo] = useState(1);
   const [row, setRow] = useState(10);
+  const [open, setOpen] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
   const [isChange, setIsChange] = useState(false);
   useEffect(() => {
@@ -46,6 +48,9 @@ const CareerPage = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+  const handleClose = () => {
+    setOpen(false);
   };
   return (
     <>
@@ -97,6 +102,10 @@ const CareerPage = () => {
                 state: { groupId: id, isUpdate: true },
               });
             }}
+            onView={async (id) => {
+              await fetchCareerById(id);
+              setOpen(true);
+            }}
             pageNo={pageNo}
             setPageNo={setPageNo}
             onSelectionChange={handleSelectionChange}
@@ -104,6 +113,11 @@ const CareerPage = () => {
             rowPerSize={row}
             setRowPerSize={setRow}
             onDeleteRow={handleRowDelete}
+          />
+          <CareerView
+            open={open}
+           onClose={handleClose}
+            data={singleCareer}
           />
         </Box>
       </Box>

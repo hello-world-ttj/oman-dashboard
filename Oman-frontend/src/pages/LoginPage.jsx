@@ -54,7 +54,7 @@ function LoginPage() {
       <Grid item xs={12} sm={8} md={6} lg={4}>
         <Box sx={{ p: 4, bgcolor: "#FFFFFF", borderRadius: 5, boxShadow: 2 }}>
           <Stack spacing={3} justifyContent="center" alignItems={"center"}>
-            <img src={kssiaImage} alt="KSSIA" width={"133px"} height="36px" />
+          <Typography fontWeight={600} fontSize={"16px"} color="#0C93D3">OMAN CHLORINE S.A.O.G</Typography>
           </Stack>
 
           <Stack

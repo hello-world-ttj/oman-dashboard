@@ -14,7 +14,6 @@ export const groupmemberColumns = [
 ];
 export const careerColumns = [
   { title: "Title", field: "title", padding: "none" },
-  { title: "Description", field: "description" },
   { title: "Expiry Date", field: "expiryDate" },
 ];
 export const paymentColumns = [

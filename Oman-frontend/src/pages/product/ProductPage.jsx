@@ -8,13 +8,16 @@ import { toast } from "react-toastify";
 import { useListStore } from "../../store/listStore";
 import { productColumns } from "../../assets/json/TableData";
 import { useProductStore } from "../../store/productStore";
+import ProductView from "../../components/product/ProductView";
 
 const ProductPage = () => {
   const navigate = useNavigate();
-  const { deleteProducts } = useProductStore();
+  const { deleteProducts, fetchProductById, singleProduct } = useProductStore();
   const { fetchProduct } = useListStore();
   const [pageNo, setPageNo] = useState(1);
+
   const [row, setRow] = useState(10);
+  const [open, setOpen] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
   const [isChange, setIsChange] = useState(false);
   useEffect(() => {
@@ -46,6 +49,9 @@ const ProductPage = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+  const handleClose = () => {
+    setOpen(false);
   };
   return (
     <>
@@ -97,6 +103,10 @@ const ProductPage = () => {
                 state: { productId: id, isUpdate: true },
               });
             }}
+            onView={async (id) => {
+              await fetchProductById(id);
+              setOpen(true);
+            }}
             pageNo={pageNo}
             setPageNo={setPageNo}
             onSelectionChange={handleSelectionChange}
@@ -105,6 +115,7 @@ const ProductPage = () => {
             setRowPerSize={setRow}
             onDeleteRow={handleRowDelete}
           />
+          <ProductView open={open} onClose={handleClose} data={singleProduct} />
         </Box>
       </Box>
     </>

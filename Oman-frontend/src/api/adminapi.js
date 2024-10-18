@@ -1,7 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import axiosInstance from "./axiosintercepter";
-const baseURL = "http://localhost:3000/api/v1/";
+const baseURL =import.meta.env.VITE_API_BASE_URL;
 export const getLogin = async (datas) => {
   try {
     const response = await axios.post(`${baseURL}admin/login`, datas);

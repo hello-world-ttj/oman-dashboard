@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useEventStore } from "../../store/eventStore";
 import { toast } from "react-toastify";
 import { useListStore } from "../../store/listStore";
+import EventView from "./EventView";
 
 const EventList = () => {
   const navigate = useNavigate();
@@ -14,7 +15,8 @@ const EventList = () => {
   const [isChange, setIsChange] = useState(false);
   const [search, setSearch] = useState("");
   const [row, setRow] = useState(10);
-  const { deleteEvent } = useEventStore();
+  const [open, setOpen] = useState(false);
+  const { deleteEvent, fetchEventById, event } = useEventStore();
   const { fetchEvent } = useListStore();
   const [pageNo, setPageNo] = useState(1);
   useEffect(() => {
@@ -42,6 +44,13 @@ const EventList = () => {
     toast.success("Deleted successfully");
     setIsChange(!isChange);
   };
+  const handleView = async (id) => {
+    await fetchEventById(id);
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <Box>
       <Stack
@@ -68,7 +77,7 @@ const EventList = () => {
         <StyledTable
           columns={eventList}
           onSelectionChange={handleSelectionChange}
-        
+          onView={handleView}
           pageNo={pageNo}
           setPageNo={setPageNo}
           onDelete={handleDelete}
@@ -79,6 +88,7 @@ const EventList = () => {
             navigate(`/events/edit/${id}`);
           }}
         />
+        <EventView onClose={handleClose} open={open} data={event} />
       </Box>
     </Box>
   );
