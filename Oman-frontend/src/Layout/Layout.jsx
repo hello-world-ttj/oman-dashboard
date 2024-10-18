@@ -154,8 +154,8 @@ const Layout = (props) => {
         }}
       >
         <Stack justifyContent={"flex-start"} spacing={2}>
-          <img src={logo} alt="Logo" width={"100%"} height="100%" />
-          
+          {/* <img src={logo} alt="Logo" width={"100%"} height="100%" /> */}
+          <Typography fontWeight={600} fontSize={"16px"} color="#0C93D3">OMAN CHLORINE S.A.O.G</Typography>
         </Stack>
       </Toolbar>
       <List

@@ -41,7 +41,6 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
   }, [event, isUpdate, setValue]);
 
   const [imageFile, setImageFile] = useState(null);
-  const [videoFile, setVideoFile] = useState(null);
 
   const handleClear = (event) => {
     event.preventDefault();
@@ -78,7 +77,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
           en: data?.en_title,
           ar: data?.ar_title,
         },
-        video: "https://youtu.be/wkcXuuZZINg?si=LrZ7bdWNuMkwq0Pd",
+        video: data?.video,
         image:
           "https://www.adobe.com/content/dam/www/us/en/events/overview-page/eventshub_evergreen_opengraph_1200x630_2x.jpg",
       };
@@ -203,16 +202,12 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                   name="video"
                   control={control}
                   defaultValue=""
-                  rules={{ required: "Video is required" }}
-                  render={({ field: { onChange, value } }) => (
+                  rules={{ required: "Video Url is required" }}
+                  render={({ field }) => (
                     <>
-                      <StyledEventUpload
-                        label="Upload Video here"
-                        onChange={(file) => {
-                          setVideoFile(file);
-                          onChange(file);
-                        }}
-                        value={value}
+                      <StyledInput
+                        placeholder="Enter the video url"
+                        {...field}
                       />
                       {errors.video && (
                         <span style={{ color: "red" }}>
