@@ -2,6 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const volleyball = require("volleyball");
+const multer = require("multer");
+const fs = require("fs");
 const clc = require("cli-color");
 const responseHandler = require("./src/helpers/responseHandler");
 const app = express();
@@ -32,6 +34,43 @@ app.use(`${BASE_PATH}/product`, productRoute);
 app.use(`${BASE_PATH}/report`, reportRoute);
 app.use(`${BASE_PATH}/user`, userRoute);
 require("./src/helpers/connection");
+
+//? Define the directory where the files will be uploaded
+const uploadDir = "./uploads";
+//? Serve static files from the oman folder
+app.use("/images", express.static(uploadDir));
+
+//? Ensure the directory exists, if not, create it
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+//? Set up multer storage configuration
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
+//? Set up multer middleware
+const upload = multer({ storage });
+
+//? Create a simple POST route for file upload
+app.post(`${BASE_PATH}/upload`, upload.single("file"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).send("No file uploaded.");
+  }
+  return responseHandler(
+    res,
+    200,
+    "File uploaded successfully",
+    req.file.filename
+  );
+});
+
 //? Define a route for the API root
 app.get(BASE_PATH, (req, res) => {
   return responseHandler(
