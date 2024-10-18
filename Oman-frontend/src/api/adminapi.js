@@ -48,3 +48,24 @@ export const fetchListofAdminById = async (id) => {
     console.error(error.response.data.message);
   }
 };
+
+export const uploadDocs = async (file) => {
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await axiosInstance.post(`/upload`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    // Error notification
+    const errorMsg =
+      error.response && error.response.data && error.response.data.message
+        ? error.response.data.message
+        : "An error occurred during file upload";
+    toast.error(errorMsg);
+  }
+};

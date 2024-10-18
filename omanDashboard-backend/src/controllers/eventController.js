@@ -1,6 +1,8 @@
+const fs = require("fs");
 const responseHandler = require("../helpers/responseHandler");
 const Event = require("../models/eventModel");
 const validations = require("../validations");
+const uploadDir = "./uploads";
 
 exports.createEvent = async (req, res) => {
   try {
@@ -70,7 +72,7 @@ exports.updateEvent = async (req, res) => {
     const updateEvent = await Event.findByIdAndUpdate(id, req.body, {
       new: true,
     });
-    if (this.updateEvent) {
+    if (updateEvent) {
       return responseHandler(
         res,
         200,
@@ -89,6 +91,14 @@ exports.deleteEvent = async (req, res) => {
 
     if (!id) {
       return responseHandler(res, 400, "Event Id is required");
+    }
+
+    const findEvent = await Event.findById(id);
+    const absolutePath = `${uploadDir}/${findEvent.image}`;
+    await fs.promises.access(absolutePath);
+    await fs.promises.unlink(absolutePath);
+    if (!findEvent) {
+      return responseHandler(res, 404, "Event not found");
     }
 
     const deleteEvent = await Event.findByIdAndDelete(id);

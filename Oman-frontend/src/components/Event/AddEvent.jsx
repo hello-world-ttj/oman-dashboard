@@ -8,6 +8,7 @@ import uploadFileToS3 from "../../utils/s3Upload.js";
 import { useEventStore } from "../../store/eventStore.js";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { uploadDocs } from "../../api/adminapi.js";
 
 export default function AddEvent({ setSelectedTab, isUpdate }) {
   const {
@@ -55,22 +56,22 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
   const onSubmit = async (data) => {
     try {
       setLoadings(true);
-      // let imageUrl = data?.image || "";
-
-      // if (imageFile) {
-      //   try {
-      //     imageUrl = await new Promise((resolve, reject) => {
-      //       uploadFileToS3(
-      //         imageFile,
-      //         (location) => resolve(location),
-      //         (error) => reject(error)
-      //       );
-      //     });
-      //   } catch (error) {
-      //     console.error("Failed to upload image:", error);
-      //     return;
-      //   }
-      // }
+      let imageUrl = data?.event_image || "";
+      if (imageFile) {
+        try {
+          imageUrl = await new Promise(async (resolve, reject) => {
+            try {
+              const response = await uploadDocs(imageFile);
+              resolve(response.data);
+            } catch (error) {
+              reject(error);
+            }
+          });
+        } catch (error) {
+          console.error("Failed to upload image:", error);
+          return;
+        }
+      }
 
       const formData = {
         title: {
@@ -78,8 +79,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
           ar: data?.ar_title,
         },
         video: data?.video,
-        image:
-          "https://www.adobe.com/content/dam/www/us/en/events/overview-page/eventshub_evergreen_opengraph_1200x630_2x.jpg",
+        image: imageUrl,
       };
 
       if (isUpdate && id) {
