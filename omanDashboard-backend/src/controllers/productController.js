@@ -1,6 +1,8 @@
+const fs = require("fs");
 const responseHandler = require("../helpers/responseHandler");
 const Product = require("../models/productModel");
 const validations = require("../validations");
+const uploadDir = "./uploads";
 
 exports.createProduct = async (req, res) => {
   try {
@@ -94,6 +96,14 @@ exports.deleteProduct = async (req, res) => {
 
     if (!id) {
       return responseHandler(res, 400, "Product Id is required");
+    }
+
+    const findProduct = await Product.findById(id);
+    const absolutePath = `${uploadDir}/${findProduct.image}`;
+    await fs.promises.access(absolutePath);
+    await fs.promises.unlink(absolutePath);
+    if (!findProduct) {
+      return responseHandler(res, 404, "Product not found");
     }
 
     const deleteProduct = await Product.findByIdAndDelete(id);
