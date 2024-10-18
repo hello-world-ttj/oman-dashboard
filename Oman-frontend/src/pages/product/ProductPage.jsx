@@ -4,15 +4,15 @@ import { Box, Stack, Typography } from "@mui/material";
 import { StyledButton } from "../../ui/StyledButton";
 import StyledSearchbar from "../../ui/StyledSearchbar";
 import { useNavigate } from "react-router-dom";
-import { groupColumns } from "../../assets/json/TableData";
-import { useGroupStore } from "../../store/groupstore";
 import { toast } from "react-toastify";
 import { useListStore } from "../../store/listStore";
+import { productColumns } from "../../assets/json/TableData";
+import { useProductStore } from "../../store/productStore";
 
-const GroupPage = () => {
+const ProductPage = () => {
   const navigate = useNavigate();
-  const { deleteGroups } = useGroupStore();
-  const { fetchGroup } = useListStore();
+  const { deleteProducts } = useProductStore();
+  const { fetchProduct } = useListStore();
   const [pageNo, setPageNo] = useState(1);
   const [row, setRow] = useState(10);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -21,7 +21,7 @@ const GroupPage = () => {
     let filter = {};
     filter.pageNo = pageNo;
     filter.limit = row;
-    fetchGroup(filter);
+    fetchProduct(filter);
   }, [isChange, pageNo, row]);
   const handleSelectionChange = (newSelectedIds) => {
     setSelectedRows(newSelectedIds);
@@ -29,7 +29,7 @@ const GroupPage = () => {
   const handleDelete = async () => {
     if (selectedRows.length > 0) {
       try {
-        await Promise.all(selectedRows?.map((id) => deleteGroups(id)));
+        await Promise.all(selectedRows?.map((id) => deleteProducts(id)));
         toast.success("Deleted successfully");
         setIsChange(!isChange);
         setSelectedRows([]);
@@ -40,7 +40,7 @@ const GroupPage = () => {
   };
   const handleRowDelete = async (id) => {
     try {
-      await deleteGroups(id);
+      await deleteProducts(id);
       toast.success("Deleted successfully");
       setIsChange(!isChange);
     } catch (error) {
@@ -91,14 +91,11 @@ const GroupPage = () => {
           border={"1px solid rgba(0, 0, 0, 0.12)"}
         >
           <StyledTable
-            columns={groupColumns}
+            columns={productColumns}
             onModify={(id) => {
-              navigate("/groups/group", {
-                state: { groupId: id, isUpdate: true },
+              navigate("/products/product", {
+                state: { productId: id, isUpdate: true },
               });
-            }}
-            onView={(rowId) => {
-              navigate(`/group/${rowId}`);
             }}
             pageNo={pageNo}
             setPageNo={setPageNo}
@@ -114,4 +111,4 @@ const GroupPage = () => {
   );
 };
 
-export default GroupPage;
+export default ProductPage;

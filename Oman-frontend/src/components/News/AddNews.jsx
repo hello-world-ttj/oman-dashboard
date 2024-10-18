@@ -30,6 +30,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
   const navigate = useNavigate();
   const { id } = useParams();
   const [imageFile, setImageFile] = useState(null);
+  const [bannerFile, setBannerFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const handleClear = (event) => {
     event.preventDefault();
@@ -49,12 +50,15 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
   useEffect(() => {
     if (singleNews && isUpdate) {
       const selectedCategory = option.find(
-        (item) => item?.value === singleNews.category
+        (item) => item?.value === singleNews.tag
       );
       setValue("category", selectedCategory || "");
-      setValue("title", singleNews.title);
-      setValue("content", singleNews.content);
-      setValue("image", singleNews.media);
+      setValue("en_title", singleNews?.title?.en);
+      setValue("ar_title", singleNews?.title?.ar);
+      setValue("en_content", singleNews?.content?.en);
+      setValue("ar_content", singleNews?.content?.ar);
+      setValue("image", singleNews.image);
+      setValue("banner", singleNews.banner);
     }
   }, [singleNews, isUpdate, setValue]);
 
@@ -97,9 +101,9 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
       } else {
         await addNewses(formData);
       }
-      navigate(`/news`);
 
       setSelectedTab(0);
+      navigate(`/news`);
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -224,7 +228,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
               Upload Banner
             </Typography>
             <Controller
-              name="image"
+              name="banner"
               control={control}
               defaultValue=""
               // rules={{ required: "File is required" }}
@@ -233,13 +237,15 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
                   <StyledEventUpload
                     label="Upload Banner here"
                     onChange={(file) => {
-                      setImageFile(file);
+                      setBannerFile(file);
                       onChange(file);
                     }}
                     value={value}
                   />
-                  {errors.image && (
-                    <span style={{ color: "red" }}>{errors.image.message}</span>
+                  {errors.banner && (
+                    <span style={{ color: "red" }}>
+                      {errors.banner.message}
+                    </span>
                   )}
                 </>
               )}

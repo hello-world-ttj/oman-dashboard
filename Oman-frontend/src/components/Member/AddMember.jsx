@@ -36,13 +36,18 @@ const AddMember = () => {
 
   useEffect(() => {
     if (isUpdate && member) {
-      setValue("name", member?.name || "");
-      setValue("designation", member?.designation || "");
-      setValue("bio", member?.bio || "");
+      setValue("en_name", member?.name?.en || "");
+      setValue("ar_name", member?.name?.ar || "");
+
+      setValue("en_designation", member?.designation?.en || "");
+      setValue("ar_designation", member?.designation?.ar || "");
+
+      setValue("en_bio", member?.bio?.en || "");
+      setValue("ar_bio", member?.bio?.ar || "");
       setValue("image", member?.image || "");
 
       const selectedType = typeOptions?.find(
-        (item) => item?.value === member?.status
+        (item) => item?.value === member?.type
       );
       setValue("type", selectedType || "");
     }
@@ -62,28 +67,38 @@ const AddMember = () => {
   const onSubmit = async (data) => {
     try {
       setLoadings(true);
-      let imageUrl = data?.image || "";
+      // let imageUrl = data?.image || "";
 
-      if (imageFile) {
-        try {
-          imageUrl = await new Promise((resolve, reject) => {
-            uploadFileToS3(
-              imageFile,
-              (location) => resolve(location),
-              (error) => reject(error)
-            );
-          });
-        } catch (error) {
-          console.error("Failed to upload image:", error);
-          return;
-        }
-      }
+      // if (imageFile) {
+      //   try {
+      //     imageUrl = await new Promise((resolve, reject) => {
+      //       uploadFileToS3(
+      //         imageFile,
+      //         (location) => resolve(location),
+      //         (error) => reject(error)
+      //       );
+      //     });
+      //   } catch (error) {
+      //     console.error("Failed to upload image:", error);
+      //     return;
+      //   }
+      // }
       const formData = {
-        name: data?.name,
-        designation: data?.designation,
+        name: {
+          en: data?.en_name,
+          ar: data?.ar_name,
+        },
+        designation: {
+          en: data?.en_designation,
+          ar: data?.ar_designation,
+        },
         type: data?.type.value,
-        bio: data?.bio,
-        image: imageUrl,
+        bio: {
+          en: data?.en_bio,
+          ar: data?.ar_bio,
+        },
+        image:
+          "https://i.pinimg.com/736x/64/81/22/6481225432795d8cdf48f0f85800cf66.jpg",
       };
       if (isUpdate) {
         await updateMember(memberId, formData);
@@ -213,7 +228,7 @@ const AddMember = () => {
                   Photo
                 </Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <Controller
                   name="image"
                   control={control}
@@ -296,7 +311,11 @@ const AddMember = () => {
                   rules={{ required: "Bio  in Arabic is required" }}
                   render={({ field }) => (
                     <>
-                      <StyledMultilineTextField textAlign="right" placeholder="أدخل السيرة الذاتية" {...field} />
+                      <StyledMultilineTextField
+                        textAlign="right"
+                        placeholder="أدخل السيرة الذاتية"
+                        {...field}
+                      />
                       {errors.ar_bio && (
                         <span style={{ color: "red" }}>
                           {errors.ar_bio.message}

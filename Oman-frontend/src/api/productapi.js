@@ -1,9 +1,9 @@
 import { toast } from "react-toastify";
 import axiosInstance from "./axiosintercepter";
 
-export const getReport = async (filter) => {
+export const getProduct = async (filter) => {
   try {
-    const response = await axiosInstance.get("/report/list", {
+    const response = await axiosInstance.get("/product/list", {
       params: filter,
     });
     return response.data;
@@ -12,35 +12,35 @@ export const getReport = async (filter) => {
   }
 };
 
-export const getReportById = async (id) => {
+export const getProductById = async (id) => {
   try {
-    const response = await axiosInstance.get(`/report/single/${id}`);
+    const response = await axiosInstance.get(`/product/single/${id}`);
     return response.data;
   } catch (error) {
     throw error;
   }
 };
-export const editReport = async (id, data) => {
+export const editProduct = async (id, data) => {
   try {
-    const response = await axiosInstance.put(`/report/single/${id}`, data);
+    const response = await axiosInstance.put(`/product/single/${id}`, data);
     toast.success(response.data.message);
     return response.data;
   } catch (error) {
     toast.error(error.response.data.message);
   }
 };
-export const addReport = async (data) => {
+export const addProduct = async (data) => {
   try {
-    const response = await axiosInstance.post("/report", data);
+    const response = await axiosInstance.post("/product", data);
     toast.success(response.data.message);
     return response.data;
   } catch (error) {
     throw error.response.data;
   }
 };
-export const deleteReport = async (id) => {
+export const deleteProduct = async (id) => {
   try {
-    const response = await axiosInstance.delete(`/report/single/${id}`);
+    const response = await axiosInstance.delete(`/product/single/${id}`);
 
     return response.data;
   } catch (error) {

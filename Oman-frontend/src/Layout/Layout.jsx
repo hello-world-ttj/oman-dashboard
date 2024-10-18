@@ -35,7 +35,7 @@ import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import EventNoteOutlinedIcon from "@mui/icons-material/EventNoteOutlined";
 import ApprovalOutlinedIcon from "@mui/icons-material/ApprovalOutlined";
-import logo from "../assets/images/logo.png";
+import logo from "../assets/images/logo.jpg";
 import FlagIcon from "@mui/icons-material/Flag";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import { LogoutOutlined, PaymentOutlined } from "@mui/icons-material";
@@ -162,10 +162,8 @@ const Layout = (props) => {
         }}
       >
         <Stack justifyContent={"flex-start"} spacing={2}>
-          <img src={logo} alt="Logo" width={"140px"} height="36px" />
-          <Typography variant="h8" color="#686465">
-            Version 1.0
-          </Typography>
+          <img src={logo} alt="Logo" width={"100%"} height="100%" />
+          
         </Stack>
       </Toolbar>
       <List

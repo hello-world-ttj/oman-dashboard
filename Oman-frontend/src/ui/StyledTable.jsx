@@ -258,74 +258,84 @@ const StyledTable = ({
                     />
                   </StyledTableCell>
                   {columns.map((column) => (
-                    <StyledTableCell
-                      key={column.field}
-                      padding={column.padding || "normal"}
-                      sx={{ cursor: "pointer" }}
-                      onClick={() => handleRowClick(row._id)}
-                    >
-                      {[
-                        "renewal",
-                        "paymentdate",
-                        "date",
-                        "createdAt",
-                        "startDate",
-                        "endDate",
-                      ].includes(column.field) ? (
-                        formatIndianDate(row[column.field])
-                      ) : [
-                          "startTime",
-                          "endtime",
-                          "time",
-                          "updatedAt",
-                        ].includes(column.field) ? (
-                        formatTime(row[column.field])
-                      ) : [
-                          "banner_image_url",
-                          "image",
-                          "event image",
-                          "speaker_image",
-                          "media",
-                        ].includes(column.field) ? (
-                        <>
-                          <img
-                            src={row[column.field]}
-                            alt={column.title}
-                            style={{ width: "50px", height: "50px" }}
-                          />{" "}
-                        </>
-                      ) : column.field === "status" ||
-                        column.field === "activate" ? (
-                        <Box
-                          display="flex"
-                          alignItems="center"
-                          justifyContent="center"
-                        >
-                          <span
-                            style={{
-                              backgroundColor: getStatusVariant(
-                                row[column.field]
-                              ),
-                              padding: "3px 8px",
-                              borderRadius: "100px",
-                              color: "#fff",
-                            }}
-                          >
-                            {row[column.field] === true ||
-                            row[column.field] === "activated"
-                              ? "active"
-                              : row[column.field] === false ||
-                                row[column.field] === "deactivated"
-                              ? "inactive"
-                              : row[column.field]}
-                          </span>
-                        </Box>
-                      ) : (
-                        row[column.field]
-                      )}
-                    </StyledTableCell>
-                  ))}
-
+    <StyledTableCell
+      key={column.field}
+      padding={column.padding || "normal"}
+      sx={{ cursor: "pointer" }}
+      onClick={() => handleRowClick(row._id)}
+    >
+      {[
+        "renewal",
+        "expiryDate",
+        "date",
+        "createdAt",
+        "startDate",
+        "endDate",
+      ].includes(column.field) ? (
+        formatIndianDate(row[column.field])
+      ) : [
+          "startTime",
+          "endtime",
+          "time",
+          "updatedAt",
+        ].includes(column.field) ? (
+        formatTime(row[column.field])
+      ) : [
+          "banner_image_url",
+          "image",
+          "event image",
+          "speaker_image",
+          "media",
+        ].includes(column.field) ? (
+        <>
+          <img
+            src={row[column.field]}
+            alt={column.title}
+            style={{ width: "50px", height: "50px" }}
+          />{" "}
+        </>
+      ) : column.field === "status" ||
+        column.field === "activate" ? (
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <span
+            style={{
+              backgroundColor: getStatusVariant(row[column.field]),
+              padding: "3px 8px",
+              borderRadius: "100px",
+              color: "#fff",
+            }}
+          >
+            {row[column.field] === true || row[column.field] === "activated"
+              ? "active"
+              : row[column.field] === false ||
+                row[column.field] === "deactivated"
+              ? "inactive"
+              : row[column.field]}
+          </span>
+        </Box>
+      ) : row[column.field] && typeof row[column.field] === "object" ? (
+        // Check if the column contains an object with 'en' and 'ar' fields
+        <>
+          {row[column.field].en && (
+            <Typography variant="body1">
+              {row[column.field].en}
+            </Typography>
+          )}
+          {row[column.field].ar && (
+            <Typography variant="body1" sx={{ color: "#888" }}>
+              {row[column.field].ar}
+            </Typography>
+          )}
+        </>
+      ) : (
+        row[column.field]
+      )}
+    </StyledTableCell>
+  ))}
                   <StyledTableCell padding="normal">
                     <Box display="flex" alignItems="center">
                       {onView && (

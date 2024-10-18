@@ -17,16 +17,16 @@ const MemberPage = () => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [memberId, setMemberId] = useState(null);
   const [pageNo, setPageNo] = useState(1);
-  const[row,setRow] = useState(10)
+  const [row, setRow] = useState(10);
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
     if (search) {
-    filter.search = search;
+      filter.search = search;
     }
-    filter.limit = row
+    filter.limit = row;
     fetchMember(filter);
-  }, [isChange, pageNo,search,row]);
+  }, [isChange, pageNo, search, row]);
 
   const handleRowDelete = (id) => {
     setMemberId(id);
@@ -88,16 +88,14 @@ const MemberPage = () => {
             columns={memberColumns}
             member
             onDeleteRow={handleRowDelete}
-            onView={(id) => {
-              navigate(`/members/${id}`);
-            }}
             pageNo={pageNo}
             setPageNo={setPageNo}
             onModify={(id) => {
               navigate(`/members/member`, {
                 state: { memberId: id, isUpdate: true },
               });
-            }}  rowPerSize={row}
+            }}
+            rowPerSize={row}
             setRowPerSize={setRow}
           />
           <DeleteProfile

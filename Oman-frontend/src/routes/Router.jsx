@@ -2,30 +2,25 @@ import { createBrowserRouter } from "react-router-dom";
 import Layout from "../Layout/Layout";
 import DashboardPage from "../pages/Dashboard/DashboardPage";
 import MemberPage from "../pages/Members/MemberPage";
-import GroupPage from "../pages/Groups/GroupPage";
 import EventsListPage from "../pages/Events/EventsListPage";
 import NewsPage from "../pages/News/NewsPage";
 import AddMemberPage from "../pages/Members/AddMemberPage";
 import EditEvent from "../pages/Events/EditEvent";
-import AddGroupPage from "../pages/Groups/AddGroupPage";
-import MemberView from "../pages/Members/MemberView";
 import LoginPage from "../pages/LoginPage";
 import EditNews from "../pages/News/EditNews";
-import QRPage from "../pages/QRPage";
 import { PrivateRoute } from "./PrivateRouter";
 import ReportPage from "../pages/Report/ReportPage";
 import AddReportPage from "../pages/Report/AddReportPage";
 import CareerPage from "../pages/Careers/CareerPage";
 import AddCareerPage from "../pages/Careers/AddCareerPage";
+import ProductPage from "../pages/product/ProductPage";
+import AddProductPage from "../pages/product/AddProductPage";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <LoginPage />,
   },
-  {
-    path: "/user/:id",
-    element: <QRPage />,
-  },
+ 
   {
     path: "/dashboard",
     element: (
@@ -46,16 +41,7 @@ const router = createBrowserRouter([
       </PrivateRoute>
     ),
   },
-  {
-    path: "/members/:id",
-    element: (
-      <PrivateRoute>
-        <Layout>
-          <MemberView />
-        </Layout>
-      </PrivateRoute>
-    ),
-  },
+
   {
     path: "/members/member",
     element: (
@@ -71,7 +57,7 @@ const router = createBrowserRouter([
     element: (
       <PrivateRoute>
         <Layout>
-          <GroupPage />
+          <ProductPage />
         </Layout>
       </PrivateRoute>
     ),
@@ -82,7 +68,7 @@ const router = createBrowserRouter([
     element: (
       <PrivateRoute>
         <Layout>
-          <AddGroupPage />
+          <AddProductPage />
         </Layout>
       </PrivateRoute>
     ),

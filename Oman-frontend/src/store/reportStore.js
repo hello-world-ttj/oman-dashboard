@@ -1,12 +1,22 @@
 import { create } from "zustand";
-import { getReport } from "../api/reportapi";
+import { addReport, deleteReport, editReport, getReportById } from "../api/reportapi";
 
 const useReportStore = create((set) => ({
-  reports: [],
+  singleReport: [],
 
-  getReports: async () => {
-    const response = await getReport();
-    set({ reports: response.data || [] });
+  addReports: async (data) => {
+    await addReport(data);
+  },
+  updateReport: async (id, data) => {
+    await editReport(id, data);
+  },
+  fetchReportById: async (id) => {
+    const allData = await getReportById(id);
+
+    set({ singleReportr: allData?.data });
+  },
+  deleteReports: async (id) => {
+    await deleteReport(id);
   },
 }));
 

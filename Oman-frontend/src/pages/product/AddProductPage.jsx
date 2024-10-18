@@ -1,8 +1,8 @@
 import React from "react";
 import { Box, Grid, Stack, Typography } from "@mui/material";
-import AddGroup from "../../components/Group/AddGroup";
+import AddProduct from "../../components/product/AddProduct";
 
-const AddGroupPage = () => {
+const AddProductPage = () => {
   return (
     <>
       <Stack
@@ -21,11 +21,11 @@ const AddGroupPage = () => {
       </Stack>
       <Grid container padding={"15px"}>
         <Grid item xs={12} md={8}>
-          <AddGroup />
+          <AddProduct />
         </Grid>
       </Grid>
     </>
   );
 };
 
-export default AddGroupPage;
+export default AddProductPage;

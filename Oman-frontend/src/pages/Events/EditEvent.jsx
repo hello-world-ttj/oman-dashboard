@@ -10,27 +10,20 @@ export default function EditEvent() {
   return (
     <>
       {" "}
-      <Box padding={"10px"} bgcolor={"#FFFFFF"}>
-        <Grid container alignItems="center">
-          <Grid item xs={6}>
-            <Typography variant="h4" color={"textSecondary"}>
-              Events / Edit event
-            </Typography>
-          </Grid>
-          <Grid item xs={6} container justifyContent="flex-end" spacing={2}>
-            <Grid item>
-              <StyledButton name="Cancel" variant="secondary">
-                Download
-              </StyledButton>
-            </Grid>
-            <Grid item>
-              <StyledButton name="Postpone" variant="primary">
-                Postpone
-              </StyledButton>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Box>
+      <Stack
+        direction={"row"}
+        padding={"10px"}
+        bgcolor={"#fff"}
+        height={"70px"}
+        alignItems={"center"}
+        justifyContent={"space-between"}
+      >
+        <Stack>
+          <Typography variant="h4" color="textSecondary">
+            Edit Event
+          </Typography>
+        </Stack>
+      </Stack>
       <Grid container item xs={12}>
         <Grid item xs={10} padding={2}>
           <AddEvent eventId={id} isUpdate={true} />

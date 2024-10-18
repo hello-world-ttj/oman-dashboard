@@ -68,9 +68,7 @@ const EventList = () => {
         <StyledTable
           columns={eventList}
           onSelectionChange={handleSelectionChange}
-          onView={(id) => {
-            navigate(`/events/${id}`);
-          }}
+        
           pageNo={pageNo}
           setPageNo={setPageNo}
           onDelete={handleDelete}

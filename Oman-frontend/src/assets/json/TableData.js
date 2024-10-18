@@ -1,9 +1,8 @@
 export const memberColumns = [
-  { title: "Name", field: "fullName", padding: "none" },
-  { title: "College Name", field: "college" },
-  { title: "Batch number", field: "batch" },
-  { title: "Phone Number", field: "phone" },
-  { title: "Status", field: "status" },
+  { title: "Name", field: "name", padding: "none" },
+  { title: "Designation", field: "designation" },
+  { title: "Image", field: "image" },
+  { title: "Type", field: "type" },
 ];
 export const groupmemberColumns = [
   { title: "Member ID", field: "memberId", padding: "none" },
@@ -13,10 +12,10 @@ export const groupmemberColumns = [
   { title: "Phone Number", field: "phone" },
   { title: "Status", field: "status" },
 ];
-export const groupColumns = [
-  { title: "Group name", field: "groupName", padding: "none" },
-  { title: "Group info", field: "groupInfo" },
-  { title: "No of members", field: "memberCount" },
+export const careerColumns = [
+  { title: "Title", field: "title", padding: "none" },
+  { title: "Description", field: "description" },
+  { title: "Expiry Date", field: "expiryDate" },
 ];
 export const paymentColumns = [
   { title: "Member name", field: "fullName", padding: "none" },
@@ -30,6 +29,11 @@ export const reportColumns = [
   { title: "Report By", field: "reportBy", padding: "none" },
   { title: "Report Type", field: "reportType" },
   { title: "Content", field: "content" }
+];
+export const productColumns = [
+  { title: "Title", field: "title", padding: "none" },
+  { title: "Description", field: "description" },
+  { title: "Image", field: "image" }
 ];
 export const member = [
   { title: "Name", field: "fullName", padding: "none" },
@@ -88,16 +92,12 @@ export const roleColumns = [
   { title: "Status", field: "status" },
 ];
 export const eventList = [
-  { title: "Event name", field: "eventName", padding: "none" },
-  { title: "Date", field: "startDate" },
-  { title: "Time", field: "startTime" },
-  { title: "Organiser name", field: "organiserName" },
-  { title: "Status", field: "status" },
-  { title: "Type", field: "type" },
+  { title: "Name", field: "title", padding: "none" },
+  { title: "Image", field: "image" },
  
 ];
 export const newsColumns = [
-  { title: "Category", field: "category", padding: "none" },
+  { title: "Category", field: "tag", padding: "none" },
 
   { title: "Title", field: "title" },
 ];

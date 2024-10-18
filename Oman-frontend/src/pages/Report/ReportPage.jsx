@@ -4,15 +4,15 @@ import { Box, Stack, Typography } from "@mui/material";
 import { StyledButton } from "../../ui/StyledButton";
 import StyledSearchbar from "../../ui/StyledSearchbar";
 import { useNavigate } from "react-router-dom";
-import { groupColumns } from "../../assets/json/TableData";
-import { useGroupStore } from "../../store/groupstore";
 import { toast } from "react-toastify";
 import { useListStore } from "../../store/listStore";
+import { reportColumns } from "../../assets/json/TableData";
+import { useReportStore } from "../../store/reportStore";
 
 const ReportPage = () => {
   const navigate = useNavigate();
-  const { deleteGroups } = useGroupStore();
-  const { fetchGroup } = useListStore();
+  const { deleteReports } = useReportStore();
+  const { fetchReport } = useListStore();
   const [pageNo, setPageNo] = useState(1);
   const [row, setRow] = useState(10);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -21,7 +21,7 @@ const ReportPage = () => {
     let filter = {};
     filter.pageNo = pageNo;
     filter.limit = row;
-    fetchGroup(filter);
+    fetchReport(filter);
   }, [isChange, pageNo, row]);
   const handleSelectionChange = (newSelectedIds) => {
     setSelectedRows(newSelectedIds);
@@ -29,7 +29,7 @@ const ReportPage = () => {
   const handleDelete = async () => {
     if (selectedRows.length > 0) {
       try {
-        await Promise.all(selectedRows?.map((id) => deleteGroups(id)));
+        await Promise.all(selectedRows?.map((id) => deleteReports(id)));
         toast.success("Deleted successfully");
         setIsChange(!isChange);
         setSelectedRows([]);
@@ -40,7 +40,7 @@ const ReportPage = () => {
   };
   const handleRowDelete = async (id) => {
     try {
-      await deleteGroups(id);
+      await deleteReports(id);
       toast.success("Deleted successfully");
       setIsChange(!isChange);
     } catch (error) {
@@ -91,10 +91,10 @@ const ReportPage = () => {
           border={"1px solid rgba(0, 0, 0, 0.12)"}
         >
           <StyledTable
-            columns={groupColumns}
+            columns={reportColumns}
             onModify={(id) => {
               navigate("/reports/report", {
-                state: { groupId: id, isUpdate: true },
+                state: { reportId: id, isUpdate: true },
               });
             }}
             pageNo={pageNo}

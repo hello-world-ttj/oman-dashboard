@@ -127,9 +127,21 @@ export const StyledEventUpload = ({ label, value, onChange }) => {
 
   useEffect(() => {
     if (value && typeof value === "string") {
-      setSelectedMedia(value);
+      const fileType = value.split('.').pop().toLowerCase(); // Get the extension of the media
+
+      // Handle different types of existing media based on extension
+      if (fileType.match(/(jpg|jpeg|png|gif)/)) {
+        setMediaType("image");
+      } else if (fileType.match(/(mp4|webm|ogg)/)) {
+        setMediaType("video");
+      } else if (fileType === "pdf") {
+        setMediaType("pdf");
+        setPdfUrl(value);
+      }
+      setSelectedMedia(value); // Set URL or base64 string
     }
   }, [value]);
+console.log("vidyo",value);
 
   return (
     <>

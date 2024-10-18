@@ -19,16 +19,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
   } = useForm();
   const { id } = useParams();
   const [loadings, setLoadings] = useState(false);
-  const [type, setType] = useState();
   const navigate = useNavigate();
-  const [speakers, setSpeakers] = useState([
-    {
-      name: "",
-      designation: "",
-      role: "",
-      image: "",
-    },
-  ]);
 
   const { addEvent, updateEvent, fetchEventById, event, loading } =
     useEventStore();
@@ -41,13 +32,16 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
 
   useEffect(() => {
     if (event && isUpdate) {
-      setValue("eventName", event.eventName);
+      setValue("en_title", event?.title?.en);
+      setValue("ar_title", event?.title?.ar);
 
       setValue("image", event.image);
+      setValue("video", event.video);
     }
   }, [event, isUpdate, setValue]);
 
   const [imageFile, setImageFile] = useState(null);
+  const [videoFile, setVideoFile] = useState(null);
 
   const handleClear = (event) => {
     event.preventDefault();
@@ -62,26 +56,31 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
   const onSubmit = async (data) => {
     try {
       setLoadings(true);
-      let imageUrl = data?.image || "";
+      // let imageUrl = data?.image || "";
 
-      if (imageFile) {
-        try {
-          imageUrl = await new Promise((resolve, reject) => {
-            uploadFileToS3(
-              imageFile,
-              (location) => resolve(location),
-              (error) => reject(error)
-            );
-          });
-        } catch (error) {
-          console.error("Failed to upload image:", error);
-          return;
-        }
-      }
+      // if (imageFile) {
+      //   try {
+      //     imageUrl = await new Promise((resolve, reject) => {
+      //       uploadFileToS3(
+      //         imageFile,
+      //         (location) => resolve(location),
+      //         (error) => reject(error)
+      //       );
+      //     });
+      //   } catch (error) {
+      //     console.error("Failed to upload image:", error);
+      //     return;
+      //   }
+      // }
 
       const formData = {
-        eventName: data?.eventName,
-        image: imageUrl,
+        title: {
+          en: data?.en_title,
+          ar: data?.ar_title,
+        },
+        video: "https://youtu.be/wkcXuuZZINg?si=LrZ7bdWNuMkwq0Pd",
+        image:
+          "https://www.adobe.com/content/dam/www/us/en/events/overview-page/eventshub_evergreen_opengraph_1200x630_2x.jpg",
       };
 
       if (isUpdate && id) {
@@ -111,17 +110,15 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
           border={"1px solid rgba(0, 0, 0, 0.12)"}
         >
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Grid container spacing={4}>
-              <Grid item xs={6}>
-                <Typography
-                  sx={{ marginBottom: 1 }}
-                  variant="h6"
-                  color="textSecondary"
-                >
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography variant="h6" color="textSecondary">
                   Name of event
                 </Typography>
+              </Grid>
+              <Grid item xs={6}>
                 <Controller
-                  name="eventName"
+                  name="en_title"
                   control={control}
                   defaultValue=""
                   rules={{ required: "Name of event is required" }}
@@ -131,9 +128,31 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                         placeholder="Enter the name of event"
                         {...field}
                       />
-                      {errors.eventName && (
+                      {errors.en_title && (
                         <span style={{ color: "red" }}>
-                          {errors.eventName.message}
+                          {errors.en_title.message}
+                        </span>
+                      )}
+                    </>
+                  )}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Controller
+                  name="ar_title"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "Name of event is required" }}
+                  render={({ field }) => (
+                    <>
+                      <StyledInput
+                        textAlign="right"
+                        placeholder="ادخل الاسم"
+                        {...field}
+                      />
+                      {errors.ar_title && (
+                        <span style={{ color: "red" }}>
+                          {errors.ar_title.message}
                         </span>
                       )}
                     </>
@@ -181,7 +200,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                   Video
                 </Typography>
                 <Controller
-                  name="videp"
+                  name="video"
                   control={control}
                   defaultValue=""
                   rules={{ required: "Video is required" }}
@@ -190,7 +209,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                       <StyledEventUpload
                         label="Upload Video here"
                         onChange={(file) => {
-                          setImageFile(file);
+                          setVideoFile(file);
                           onChange(file);
                         }}
                         value={value}

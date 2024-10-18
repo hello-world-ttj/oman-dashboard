@@ -3,7 +3,7 @@ import axiosInstance from "./axiosintercepter";
 
 export const getMember = async (filter) => {
   try {
-    const response = await axiosInstance.get(`/user/admin/list`, {
+    const response = await axiosInstance.get(`/user/list`, {
       params: filter,
     });
     return response.data;
@@ -13,7 +13,7 @@ export const getMember = async (filter) => {
 };
 export const getSingleUser = async (id) => {
   try {
-    const response = await axiosInstance.get(`/user/get/${id}`);
+    const response = await axiosInstance.get(`/user/single/${id}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -21,7 +21,7 @@ export const getSingleUser = async (id) => {
 };
 export const addMember = async (data) => {
   try {
-    const response = await axiosInstance.post("/user/admin", data);
+    const response = await axiosInstance.post("/user", data);
     toast.success(response.data.message);
     return response.data;
   } catch (error) {
@@ -30,7 +30,7 @@ export const addMember = async (data) => {
 };
 export const getMemberById = async (id) => {
   try {
-    const response = await axiosInstance.get(`/user/admin/single/${id}`);
+    const response = await axiosInstance.get(`/user/single/${id}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -38,7 +38,7 @@ export const getMemberById = async (id) => {
 };
 export const deleteMember = async (id) => {
   try {
-    const response = await axiosInstance.delete(`/user/admin/single/${id}`);
+    const response = await axiosInstance.delete(`/user/single/${id}`);
 
     return response.data;
   } catch (error) {
@@ -47,7 +47,7 @@ export const deleteMember = async (id) => {
 };
 export const editMember = async (id, data) => {
   try {
-    const response = await axiosInstance.put(`/user/admin/single/${id}`, data);
+    const response = await axiosInstance.put(`/user/single/${id}`, data);
     toast.success(response.data.message);
     return response.data;
   } catch (error) {
@@ -55,21 +55,4 @@ export const editMember = async (id, data) => {
   }
 };
 
-export const userBlock = async (id) => {
-  try {
-    const response = await axiosInstance.patch(`/user/admin/block-user/${id}`);
-    toast.success(response.data.message);
-    return response.data;
-  } catch (error) {
-    toast.error(error.response.data.message);
-  }
-};
-export const userUnBlock = async (id) => {
-  try {
-    const response = await axiosInstance.patch(`/user/admin/unblock-user/${id}`);
-    toast.success(response.data.message);
-    return response.data;
-  } catch (error) {
-    toast.error(error.response.data.message);
-  }
-};
+

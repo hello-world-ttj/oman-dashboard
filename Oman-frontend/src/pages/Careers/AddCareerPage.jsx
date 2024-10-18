@@ -1,6 +1,5 @@
 import React from "react";
 import { Box, Grid, Stack, Typography } from "@mui/material";
-import AddGroup from "../../components/Group/AddGroup";
 import AddCareer from "../../components/Career/AddCareer";
 
 const AddCareerPage = () => {

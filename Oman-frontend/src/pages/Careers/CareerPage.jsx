@@ -4,15 +4,15 @@ import { Box, Stack, Typography } from "@mui/material";
 import { StyledButton } from "../../ui/StyledButton";
 import StyledSearchbar from "../../ui/StyledSearchbar";
 import { useNavigate } from "react-router-dom";
-import { groupColumns } from "../../assets/json/TableData";
-import { useGroupStore } from "../../store/groupstore";
+import { careerColumns } from "../../assets/json/TableData";
 import { toast } from "react-toastify";
 import { useListStore } from "../../store/listStore";
+import { useCareerStore } from "../../store/careerStore";
 
 const CareerPage = () => {
   const navigate = useNavigate();
-  const { deleteGroups } = useGroupStore();
-  const { fetchGroup } = useListStore();
+  const { deleteCareers } = useCareerStore();
+  const { fetchCareer } = useListStore();
   const [pageNo, setPageNo] = useState(1);
   const [row, setRow] = useState(10);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -21,7 +21,7 @@ const CareerPage = () => {
     let filter = {};
     filter.pageNo = pageNo;
     filter.limit = row;
-    fetchGroup(filter);
+    fetchCareer(filter);
   }, [isChange, pageNo, row]);
   const handleSelectionChange = (newSelectedIds) => {
     setSelectedRows(newSelectedIds);
@@ -29,7 +29,7 @@ const CareerPage = () => {
   const handleDelete = async () => {
     if (selectedRows.length > 0) {
       try {
-        await Promise.all(selectedRows?.map((id) => deleteGroups(id)));
+        await Promise.all(selectedRows?.map((id) => deleteCareers(id)));
         toast.success("Deleted successfully");
         setIsChange(!isChange);
         setSelectedRows([]);
@@ -40,7 +40,7 @@ const CareerPage = () => {
   };
   const handleRowDelete = async (id) => {
     try {
-      await deleteGroups(id);
+      await deleteCareers(id);
       toast.success("Deleted successfully");
       setIsChange(!isChange);
     } catch (error) {
@@ -91,7 +91,7 @@ const CareerPage = () => {
           border={"1px solid rgba(0, 0, 0, 0.12)"}
         >
           <StyledTable
-            columns={groupColumns}
+            columns={careerColumns}
             onModify={(id) => {
               navigate("/careers/career", {
                 state: { groupId: id, isUpdate: true },

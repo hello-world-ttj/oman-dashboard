@@ -77,7 +77,6 @@ export default function NewsDisplay() {
   const handleChange = () => {
     setIsChange(!isChange);
   };
-console.log("anjana",search);
 
   return (
     <>
@@ -135,24 +134,17 @@ console.log("anjana",search);
       >
         <StyledTable
           columns={newsColumns}
-          news
+          
           onDelete={handleDelete}
           onDeleteRow={handleRowDelete}
           onSelectionChange={handleSelectionChange}
           onModify={handleEdit}
           pageNo={pageNo}
           setPageNo={setPageNo}
-          onAction={handlePreview}
           rowPerSize={row}
           setRowPerSize={setRow}
         />{" "}
-        <NewsPreview
-          open={previewOpen}
-          onClose={handleClosePreview}
-          onChange={handleChange}
-          data={singleNews}
-          onEdit={() => handleEdit(singleNews._id)}
-        />
+      
       </Box>
     </>
   );

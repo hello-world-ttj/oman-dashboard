@@ -3,13 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import StyledInput from "../../ui/StyledInput";
 import { StyledButton } from "../../ui/StyledButton";
-import { useDropDownStore } from "../../store/dropDownStore";
-import { useGroupStore } from "../../store/groupstore";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import { StyledMultilineTextField } from "../../ui/StyledMultilineTextField";
 import { StyledEventUpload } from "../../ui/StyledEventUpload";
 import { StyledCalender } from "../../ui/StyledCalender";
+import { useCareerStore } from "../../store/careerStore";
 
 const AddCareer = () => {
   const {
@@ -23,37 +22,50 @@ const AddCareer = () => {
   const { groupId, isUpdate } = location?.state || {};
   const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState(null);
-  const { addGroups, fetchGroupById, singleGroup, updateGroup } =
-    useGroupStore();
+  const { addCareers, fetchCareerById, singleCareer, updateCareer } =
+    useCareerStore();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (isUpdate && groupId) {
-      fetchGroupById(groupId);
+      fetchCareerById(groupId);
     }
-  }, [groupId, isUpdate, fetchGroupById]);
+  }, [groupId, isUpdate, fetchCareerById]);
   useEffect(() => {
-    if (singleGroup && isUpdate) {
-      setValue("groupName", singleGroup?.groupName);
-      setValue("groupInfo", singleGroup?.groupInfo);
+    if (singleCareer && isUpdate) {
+      setValue("en_title", singleCareer?.title?.en);
+      setValue("ar_title", singleCareer?.title?.ar);
+      setValue("en_description", singleCareer?.description?.en);
+      setValue("ar_description", singleCareer?.description?.ar);
+      setValue("date", singleCareer?.expiryDate);
+      setValue("image", singleCareer?.image);
     }
-  }, [singleGroup, isUpdate, setValue]);
+  }, [singleCareer, isUpdate, setValue]);
 
   const onSubmit = async (data) => {
     try {
       setLoading(true);
 
       const formData = {
-        groupName: data?.groupName,
-        groupInfo: data?.groupInfo,
+        title: {
+          en: data.en_title,
+          ar: data.ar_title,
+        },
+        description: {
+          en: data.en_description,
+          ar: data.ar_description,
+        },
+        image:
+        "https://www.geolifecare.com/assets/upload/category/1555006667238.jpg",
+        expiryDate: data?.date,
       };
       if (isUpdate && groupId) {
-        await updateGroup(groupId, formData);
+        await updateCareer(groupId, formData);
       } else {
-        await addGroups(formData);
+        await addCareers(formData);
       }
       reset();
-      navigate("/groups");
+      navigate("/careers");
     } catch (error) {
       toast.error(error.message);
     } finally {
