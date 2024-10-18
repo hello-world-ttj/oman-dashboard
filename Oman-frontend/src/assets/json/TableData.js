@@ -30,7 +30,6 @@ export const reportColumns = [
 ];
 export const productColumns = [
   { title: "Title", field: "title", padding: "none" },
-  { title: "Description", field: "description" },
   { title: "Image", field: "image" }
 ];
 export const member = [
