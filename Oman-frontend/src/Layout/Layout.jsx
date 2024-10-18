@@ -14,8 +14,6 @@ import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Collapse,
@@ -24,21 +22,15 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { ReactComponent as ExpandMoreIcon } from "../assets/icons/ExpandMoreIcon.svg";
 import { ReactComponent as LogoutIcon } from "../assets/icons/LogoutIcon.svg";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
-import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
-import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import NewspaperOutlinedIcon from "@mui/icons-material/NewspaperOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import EventNoteOutlinedIcon from "@mui/icons-material/EventNoteOutlined";
 import ApprovalOutlinedIcon from "@mui/icons-material/ApprovalOutlined";
 import logo from "../assets/images/logo.jpg";
-import FlagIcon from "@mui/icons-material/Flag";
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import { LogoutOutlined, PaymentOutlined } from "@mui/icons-material";
 import { useAdminStore } from "../store/adminStore";
 const drawerWidth = 250;
 const subNavigation = [
