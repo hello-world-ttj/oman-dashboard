@@ -18,6 +18,7 @@ const NewsSchema = mongoose.Schema(
       enum: ["published", "unpublished"],
       default: "unpublished",
     },
+    slug: { type: String },
   },
   { timestamps: true }
 );

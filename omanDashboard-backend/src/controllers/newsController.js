@@ -19,6 +19,13 @@ exports.createNews = async (req, res) => {
       );
     }
 
+    const slug = req.body.title.en
+      .toLowerCase()
+      .replace(/[^\w ]+/g, "")
+      .replace(/ +/g, "-");
+
+    req.body.slug = slug;
+
     const newNews = await News.create(req.body);
     if (!newNews) {
       return responseHandler(res, 400, `News creation failed...!`);
