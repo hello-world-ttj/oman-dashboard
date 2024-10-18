@@ -109,11 +109,16 @@ exports.deleteNews = async (req, res) => {
 
 exports.getAllNews = async (req, res) => {
   try {
-    const { pageNo = 1, status, type, limit = 10 } = req.query;
+    const { pageNo = 1, search, type, limit = 10 } = req.query;
     const skipCount = 10 * (pageNo - 1);
     const filter = {};
     if (type) {
-      filter.type = type;
+      filter.tag = type;
+    }
+    if (search) {
+      filter.$or = [
+        { "title.en": { $regex: search, $options: "i" } },
+      ];
     }
     const totalCount = await News.countDocuments(filter);
     const data = await News.find(filter)

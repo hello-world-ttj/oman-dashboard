@@ -72,7 +72,6 @@ const ReportPage = () => {
           </Typography>
         </Stack>
         <Stack direction={"row"} spacing={2}>
-          <StyledButton variant={"secondary"} name={"Download"} />
           <StyledButton
             variant={"primary"}
             name={"Add Report"}

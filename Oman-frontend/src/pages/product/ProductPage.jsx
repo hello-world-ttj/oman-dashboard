@@ -14,18 +14,21 @@ const ProductPage = () => {
   const navigate = useNavigate();
   const { deleteProducts, fetchProductById, singleProduct } = useProductStore();
   const { fetchProduct } = useListStore();
+  const [search, setSearch] = useState(null);
   const [pageNo, setPageNo] = useState(1);
 
   const [row, setRow] = useState(10);
   const [open, setOpen] = useState(false);
+
   const [selectedRows, setSelectedRows] = useState([]);
   const [isChange, setIsChange] = useState(false);
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
+    filter.search = search;
     filter.limit = row;
     fetchProduct(filter);
-  }, [isChange, pageNo, row]);
+  }, [isChange, pageNo, row, search]);
   const handleSelectionChange = (newSelectedIds) => {
     setSelectedRows(newSelectedIds);
   };
@@ -69,7 +72,6 @@ const ProductPage = () => {
           </Typography>
         </Stack>
         <Stack direction={"row"} spacing={2}>
-          <StyledButton variant={"secondary"} name={"Download"} />
           <StyledButton
             variant={"primary"}
             name={"Add Product"}
@@ -87,7 +89,12 @@ const ProductPage = () => {
           alignItems={"center"}
         >
           <Stack direction={"row"} spacing={2}>
-            <StyledSearchbar placeholder={"Search"} />
+            <StyledSearchbar
+              placeholder={"Search"}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+            />
           </Stack>
         </Stack>
         <Box

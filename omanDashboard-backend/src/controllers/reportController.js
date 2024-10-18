@@ -107,7 +107,7 @@ exports.deleteReport = async (req, res) => {
 
 exports.getAllReport = async (req, res) => {
   try {
-    const { pageNo = 1, status, type, limit = 10 } = req.query;
+    const { pageNo = 1, type, limit = 10 } = req.query;
     const skipCount = 10 * (pageNo - 1);
     const filter = {};
     if (type) {

@@ -58,11 +58,11 @@ export default function NewsDisplay() {
       filter.search = search;
     }
     filter.limit = row;
-    if (selectedTab) {
-      filter.category = selectedTab;
+    if (selectedTab !== "All") {
+      filter.type = selectedTab;
     }
     fetchNews(filter);
-  }, [isChange, pageNo, search,selectedTab,row]);
+  }, [isChange, pageNo, search, selectedTab, row]);
   const handleEdit = (id) => {
     navigate(`/news/edit/${id}`);
   };
@@ -88,7 +88,10 @@ export default function NewsDisplay() {
         marginRight={2}
       >
         <Stack direction={"row"} spacing={2}>
-        <StyledSearchbar placeholder={"Search"} onchange={(e) => setSearch(e.target.value)} />
+          <StyledSearchbar
+            placeholder={"Search"}
+            onchange={(e) => setSearch(e.target.value)}
+          />
         </Stack>
       </Stack>
 
@@ -144,7 +147,11 @@ export default function NewsDisplay() {
           rowPerSize={row}
           setRowPerSize={setRow}
         />{" "}
-      <NewsPreview open={previewOpen} onClose={handleClosePreview} data={singleNews} />
+        <NewsPreview
+          open={previewOpen}
+          onClose={handleClosePreview}
+          data={singleNews}
+        />
       </Box>
     </>
   );
