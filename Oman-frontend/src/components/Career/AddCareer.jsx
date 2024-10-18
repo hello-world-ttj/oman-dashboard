@@ -41,7 +41,11 @@ const AddCareer = () => {
       setValue("image", singleCareer?.image);
     }
   }, [singleCareer, isUpdate, setValue]);
-
+  const handleClear = (event) => {
+    event.preventDefault();
+    reset();
+    navigate(-1);
+  };
   const onSubmit = async (data) => {
     try {
       setLoading(true);
@@ -56,7 +60,7 @@ const AddCareer = () => {
           ar: data.ar_description,
         },
         image:
-        "https://www.geolifecare.com/assets/upload/category/1555006667238.jpg",
+          "https://www.geolifecare.com/assets/upload/category/1555006667238.jpg",
         expiryDate: data?.date,
       };
       if (isUpdate && groupId) {
@@ -233,7 +237,11 @@ const AddCareer = () => {
           <Grid item xs={6}></Grid>
           <Grid item xs={6}>
             <Stack direction={"row"} spacing={2} justifyContent={"flex-end"}>
-              <StyledButton name="Cancel" variant="secondary" />
+              <StyledButton
+                name="Cancel"
+                variant="secondary"
+                onClick={(event) => handleClear(event)}
+              />
               <StyledButton
                 name={loading ? "Saving..." : "Save"}
                 variant="primary"

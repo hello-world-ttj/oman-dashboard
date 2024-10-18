@@ -38,6 +38,11 @@ const AddReport = () => {
       setValue("media", singleReport?.media);
     }
   }, [singleReport, isUpdate, setValue]);
+const handleClear = (event) => {
+  event.preventDefault();
+  reset();
+  navigate(-1);
+}
 
   const onSubmit = async (data) => {
     try {
@@ -59,8 +64,8 @@ const AddReport = () => {
       //   }
       // }
       const formData = {
-        // image: imageUrl,
-        // media: mediaUrl,
+        image: "https://financialcrimeacademy.org/wp-content/uploads/2023/09/31d6315d-2988-4b20-9d2d-71d9df38cd29.png",
+        media:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
       };
       if (isUpdate && reportId) {
         await updateReport(reportId, formData);
@@ -148,7 +153,7 @@ const AddReport = () => {
           <Grid item xs={6}></Grid>
           <Grid item xs={6}>
             <Stack direction={"row"} spacing={2} justifyContent={"flex-end"}>
-              <StyledButton name="Cancel" variant="secondary" />
+              <StyledButton name="Cancel" variant="secondary"onClick={(event) => handleClear(event)} />
               <StyledButton
                 name={loading ? "Saving..." : "Save"}
                 variant="primary"

@@ -26,9 +26,8 @@ export const paymentColumns = [
   { title: "Status", field: "status" },
 ];
 export const reportColumns = [
-  { title: "Report By", field: "reportBy", padding: "none" },
-  { title: "Report Type", field: "reportType" },
-  { title: "Content", field: "content" }
+  { title: "Image", field: "image", padding: "none" },
+  { title: "Created on", field: "createdAt" },
 ];
 export const productColumns = [
   { title: "Title", field: "title", padding: "none" },

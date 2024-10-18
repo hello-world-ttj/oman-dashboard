@@ -62,6 +62,7 @@ const AddMember = () => {
     event.preventDefault();
     reset();
     setImageFile(null);
+    navigate(-1);
   };
 
   const onSubmit = async (data) => {

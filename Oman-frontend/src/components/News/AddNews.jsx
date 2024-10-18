@@ -34,7 +34,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
   const [loading, setLoading] = useState(false);
   const handleClear = (event) => {
     event.preventDefault();
-    navigate("/news");
+    navigate(-1);
   };
   const option = [
     { value: "Latest", label: "Latest" },

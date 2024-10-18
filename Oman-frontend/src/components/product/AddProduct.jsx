@@ -39,7 +39,10 @@ const AddProduct = () => {
       setValue("image", singleProduct?.image);
     }
   }, [singleProduct, isUpdate, setValue]);
-
+const handleClear = (event) => {
+  event.preventDefault();
+  navigate(-1);
+}
   const onSubmit = async (data) => {
     try {
       setLoading(true);
@@ -208,7 +211,7 @@ const AddProduct = () => {
           <Grid item xs={6}></Grid>
           <Grid item xs={6}>
             <Stack direction={"row"} spacing={2} justifyContent={"flex-end"}>
-              <StyledButton name="Cancel" variant="secondary" />
+              <StyledButton name="Cancel" variant="secondary" onClick={(event) => handleClear(event)} />
               <StyledButton
                 name={loading ? "Saving..." : "Save"}
                 variant="primary"

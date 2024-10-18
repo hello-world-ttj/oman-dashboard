@@ -13,7 +13,7 @@ const useReportStore = create((set) => ({
   fetchReportById: async (id) => {
     const allData = await getReportById(id);
 
-    set({ singleReportr: allData?.data });
+    set({ singleReport: allData?.data });
   },
   deleteReports: async (id) => {
     await deleteReport(id);
