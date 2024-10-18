@@ -10,6 +10,7 @@ import { StyledButton } from "../../ui/StyledButton";
 import { useNewsStore } from "../../store/newsStore";
 import uploadFileToS3 from "../../utils/s3Upload";
 import { toast } from "react-toastify";
+import { uploadDocs } from "../../api/adminapi";
 
 export default function AddNews({ isUpdate, setSelectedTab }) {
   const {
@@ -65,22 +66,35 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      // let imageUrl = data?.image || "";
+      let imageUrl = data?.image || "";
+      let bannerUrl = data?.banner || "";
 
-      // if (imageFile) {
-      //   try {
-      //     imageUrl = await new Promise((resolve, reject) => {
-      //       uploadFileToS3(
-      //         imageFile,
-      //         (location) => resolve(location),
-      //         (error) => reject(error)
-      //       );
-      //     });
-      //   } catch (error) {
-      //     console.error("Failed to upload image:", error);
-      //     return;
-      //   }
-      // }
+      const uploadFile = async (file) => {
+        try {
+          const response = await uploadDocs(file);
+          return response.data;
+        } catch (error) {
+          console.error("Failed to upload file:", error);
+          throw error;
+        }
+      };
+
+      if (imageFile) {
+        try {
+          imageUrl = await uploadFile(imageFile);
+        } catch (error) {
+          return;
+        }
+      }
+
+      if (bannerUrl) {
+        try {
+          bannerUrl = await uploadFile(bannerUrl);
+        } catch (error) {
+          return;
+        }
+      }
+
       const formData = {
         tag: data.category.value,
         title: {
@@ -91,10 +105,8 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
           en: data.en_content,
           ar: data.ar_content,
         },
-        image:
-          "https://www.geolifecare.com/assets/upload/category/1555006667238.jpg",
-        banner:
-          "https://img.freepik.com/premium-vector/latest-news-word-concept-vector-illustration-with-blue-lines-modern-futuristic-3d-style_737072-111.jpg",
+        image: imageUrl,
+        banner: bannerUrl,
       };
       if (isUpdate && id) {
         await updateNews(id, formData);
