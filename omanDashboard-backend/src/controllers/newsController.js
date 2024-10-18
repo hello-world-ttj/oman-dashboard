@@ -1,6 +1,8 @@
+const fs = require("fs");
 const responseHandler = require("../helpers/responseHandler");
 const News = require("../models/newsModel");
 const validations = require("../validations");
+const uploadDir = "./uploads";
 
 exports.createNews = async (req, res) => {
   try {
@@ -98,6 +100,14 @@ exports.deleteNews = async (req, res) => {
       return responseHandler(res, 400, "News Id is required");
     }
 
+    const findNews = await News.findById(id);
+    const absolutePath = `${uploadDir}/${findNews.image}`;
+    await fs.promises.access(absolutePath);
+    await fs.promises.unlink(absolutePath);
+    if (!findNews) {
+      return responseHandler(res, 404, "News not found");
+    }
+
     const deleteNews = await News.findByIdAndDelete(id);
     if (deleteNews) {
       return responseHandler(res, 200, `News deleted successfull..!`);
@@ -116,9 +126,7 @@ exports.getAllNews = async (req, res) => {
       filter.tag = type;
     }
     if (search) {
-      filter.$or = [
-        { "title.en": { $regex: search, $options: "i" } },
-      ];
+      filter.$or = [{ "title.en": { $regex: search, $options: "i" } }];
     }
     const totalCount = await News.countDocuments(filter);
     const data = await News.find(filter)

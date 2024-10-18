@@ -1,6 +1,8 @@
+const fs = require("fs");
 const responseHandler = require("../helpers/responseHandler");
 const Career = require("../models/careerModel");
 const validations = require("../validations");
+const uploadDir = "./uploads";
 
 exports.createCareer = async (req, res) => {
   try {
@@ -94,6 +96,14 @@ exports.deleteCareer = async (req, res) => {
 
     if (!id) {
       return responseHandler(res, 400, "Career Id is required");
+    }
+
+    const findCareer = await Career.findById(id);
+    const absolutePath = `${uploadDir}/${findCareer.image}`;
+    await fs.promises.access(absolutePath);
+    await fs.promises.unlink(absolutePath);
+    if (!findCareer) {
+      return responseHandler(res, 404, "Career not found");
     }
 
     const deleteCareer = await Career.findByIdAndDelete(id);

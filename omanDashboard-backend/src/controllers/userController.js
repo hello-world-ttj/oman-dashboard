@@ -1,6 +1,8 @@
+const fs = require("fs");
 const responseHandler = require("../helpers/responseHandler");
 const User = require("../models/userModel");
 const validations = require("../validations");
+const uploadDir = "./uploads";
 
 exports.createUser = async (req, res) => {
   try {
@@ -94,6 +96,14 @@ exports.deleteUser = async (req, res) => {
 
     if (!id) {
       return responseHandler(res, 400, "User Id is required");
+    }
+
+    const findUser = await User.findById(id);
+    const absolutePath = `${uploadDir}/${findUser.image}`;
+    await fs.promises.access(absolutePath);
+    await fs.promises.unlink(absolutePath);
+    if (!findUser) {
+      return responseHandler(res, 404, "User not found");
     }
 
     const deleteUser = await User.findByIdAndDelete(id);

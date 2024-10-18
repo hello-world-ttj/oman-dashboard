@@ -1,6 +1,8 @@
+const fs = require("fs");
 const responseHandler = require("../helpers/responseHandler");
 const Report = require("../models/reportModel");
 const validations = require("../validations");
+const uploadDir = "./uploads";
 
 exports.createReport = async (req, res) => {
   try {
@@ -94,6 +96,17 @@ exports.deleteReport = async (req, res) => {
 
     if (!id) {
       return responseHandler(res, 400, "Report Id is required");
+    }
+
+    const findReport = await Report.findById(id);
+    const absolutePath = `${uploadDir}/${findReport.image}`;
+    const absolutePathMedia = `${uploadDir}/${findReport.media}`;
+    await fs.promises.access(absolutePathMedia);
+    await fs.promises.unlink(absolutePathMedia);
+    await fs.promises.access(absolutePath);
+    await fs.promises.unlink(absolutePath);
+    if (!findReport) {
+      return responseHandler(res, 404, "Report not found");
     }
 
     const deleteReport = await Report.findByIdAndDelete(id);
