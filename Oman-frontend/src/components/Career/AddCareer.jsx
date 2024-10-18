@@ -9,6 +9,7 @@ import { StyledMultilineTextField } from "../../ui/StyledMultilineTextField";
 import { StyledEventUpload } from "../../ui/StyledEventUpload";
 import { StyledCalender } from "../../ui/StyledCalender";
 import { useCareerStore } from "../../store/careerStore";
+import { uploadDocs } from "../../api/adminapi";
 
 const AddCareer = () => {
   const {
@@ -49,6 +50,25 @@ const AddCareer = () => {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
+      let imageUrl = data?.image || "";
+
+      const uploadFile = async (file) => {
+        try {
+          const response = await uploadDocs(file);
+          return response.data;
+        } catch (error) {
+          console.error("Failed to upload file:", error);
+          throw error;
+        }
+      };
+
+      if (imageFile) {
+        try {
+          imageUrl = await uploadFile(imageFile);
+        } catch (error) {
+          return;
+        }
+      }
 
       const formData = {
         title: {
@@ -59,8 +79,7 @@ const AddCareer = () => {
           en: data.en_description,
           ar: data.ar_description,
         },
-        image:
-          "https://www.geolifecare.com/assets/upload/category/1555006667238.jpg",
+        image: imageUrl,
         expiryDate: data?.date,
       };
       if (isUpdate && groupId) {
@@ -224,6 +243,7 @@ const AddCareer = () => {
                       setImageFile(file);
                       onChange(file);
                     }}
+                    isUpdate={isUpdate}
                     value={value}
                   />
                   {errors.image && (

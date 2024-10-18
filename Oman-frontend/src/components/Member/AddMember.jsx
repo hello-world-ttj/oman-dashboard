@@ -10,6 +10,7 @@ import uploadFileToS3 from "../../utils/s3Upload";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useMemberStore } from "../../store/Memberstore";
+import { uploadDocs } from "../../api/adminapi";
 
 const AddMember = () => {
   const {
@@ -68,22 +69,25 @@ const AddMember = () => {
   const onSubmit = async (data) => {
     try {
       setLoadings(true);
-      // let imageUrl = data?.image || "";
+      let imageUrl = data?.image || "";
 
-      // if (imageFile) {
-      //   try {
-      //     imageUrl = await new Promise((resolve, reject) => {
-      //       uploadFileToS3(
-      //         imageFile,
-      //         (location) => resolve(location),
-      //         (error) => reject(error)
-      //       );
-      //     });
-      //   } catch (error) {
-      //     console.error("Failed to upload image:", error);
-      //     return;
-      //   }
-      // }
+      const uploadFile = async (file) => {
+        try {
+          const response = await uploadDocs(file);
+          return response.data;
+        } catch (error) {
+          console.error("Failed to upload file:", error);
+          throw error;
+        }
+      };
+
+      if (imageFile) {
+        try {
+          imageUrl = await uploadFile(imageFile);
+        } catch (error) {
+          return;
+        }
+      }
       const formData = {
         name: {
           en: data?.en_name,
@@ -98,8 +102,7 @@ const AddMember = () => {
           en: data?.en_bio,
           ar: data?.ar_bio,
         },
-        image:
-          "https://i.pinimg.com/736x/64/81/22/6481225432795d8cdf48f0f85800cf66.jpg",
+        image: imageUrl,
       };
       if (isUpdate) {
         await updateMember(memberId, formData);
@@ -243,6 +246,7 @@ const AddMember = () => {
                           setImageFile(file);
                           onChange(file);
                         }}
+                        isUpdate={isUpdate}
                         value={value}
                       />
                       {errors.image && (

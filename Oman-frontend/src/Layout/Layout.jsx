@@ -26,17 +26,16 @@ import { ReactComponent as ExpandMoreIcon } from "../assets/icons/ExpandMoreIcon
 import { ReactComponent as LogoutIcon } from "../assets/icons/LogoutIcon.svg";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import NewspaperOutlinedIcon from "@mui/icons-material/NewspaperOutlined";
-import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
+import ScienceIcon from '@mui/icons-material/Science';
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import EventNoteOutlinedIcon from "@mui/icons-material/EventNoteOutlined";
 import ApprovalOutlinedIcon from "@mui/icons-material/ApprovalOutlined";
-import logo from "../assets/images/logo.jpg";
 import { useAdminStore } from "../store/adminStore";
 const drawerWidth = 250;
 const subNavigation = [
   // { name: "Dashboard", to: "/dashboard", icon: <GridViewIcon /> },
   { name: "Members", to: "/members", icon: <PeopleAltOutlinedIcon /> },
-  { name: "Products", to: "/products", icon: <GroupsOutlinedIcon /> },
+  { name: "Products", to: "/products", icon: <ScienceIcon /> },
   {
     name: "Events",
     icon: <EventNoteOutlinedIcon />,

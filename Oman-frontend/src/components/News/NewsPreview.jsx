@@ -8,11 +8,12 @@ import {
   Card,
   CardMedia,
   Stack,
-  Grid
+  Grid,
 } from "@mui/material";
 import { ReactComponent as CloseIcon } from "../../assets/icons/CloseIcon.svg";
 
 const NewsPreview = ({ open, onClose, data }) => {
+  const baseURL = import.meta.env.VITE_API_IMAGE_URL;
   return (
     <Dialog
       open={open}
@@ -34,51 +35,42 @@ const NewsPreview = ({ open, onClose, data }) => {
         </Box>
       </DialogTitle>
       <Divider />
-
-      {/* Banner with Reduced Height */}
       <CardMedia
         component="img"
         height="120"
-        image={data?.banner}
+        image={`${baseURL}${data?.banner}`}
         alt="News Banner"
         sx={{ objectFit: "cover", borderRadius: "8px", margin: "0px" }}
       />
 
       <DialogContent sx={{ padding: 3 }}>
         <Grid container spacing={3}>
-          {/* Left Side: News Image */}
           <Grid item xs={12} sm={5}>
             <Card>
               <CardMedia
                 component="img"
                 height="100%"
-                image={data?.image}
+                image={`${baseURL}${data?.image}`}
                 alt="News Image"
                 sx={{ objectFit: "cover", borderRadius: "8px" }}
               />
             </Card>
           </Grid>
 
-          {/* Right Side: News Details */}
           <Grid item xs={12} sm={7}>
             <Stack spacing={2}>
-              {/* News Title */}
               <Typography variant="h5" gutterBottom>
                 {data?.title?.en}
               </Typography>
               <Typography variant="h6" color="text.secondary">
                 {data?.title?.ar}
               </Typography>
-
-              {/* News Content */}
               <Typography variant="body1" paragraph>
                 {data?.content?.en}
               </Typography>
               <Typography variant="body1" paragraph>
                 {data?.content?.ar}
               </Typography>
-
-              {/* Tag and Status */}
               <Typography variant="body2" color="text.secondary">
                 Tag: {data?.tag}
               </Typography>

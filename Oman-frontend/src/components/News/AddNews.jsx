@@ -112,9 +112,10 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
         await updateNews(id, formData);
       } else {
         await addNewses(formData);
+        setSelectedTab(0);
       }
 
-      setSelectedTab(0);
+      
       navigate(`/news`);
     } catch (error) {
       toast.error(error.message);
@@ -122,7 +123,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
       setLoading(false);
     }
   };
-
+  const baseURL = import.meta.env.VITE_API_IMAGE_URL;
   return (
     <Box
       sx={{ padding: 3 }}
@@ -217,7 +218,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
               render={({ field: { onChange, value } }) => (
                 <>
                   <StyledEventUpload
-                    label="Upload image here"
+                    label="Upload image here" isUpdate={isUpdate}
                     onChange={(file) => {
                       setImageFile(file);
                       onChange(file);
@@ -247,7 +248,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
               render={({ field: { onChange, value } }) => (
                 <>
                   <StyledEventUpload
-                    label="Upload Banner here"
+                    label="Upload Banner here" isUpdate={isUpdate}
                     onChange={(file) => {
                       setBannerFile(file);
                       onChange(file);

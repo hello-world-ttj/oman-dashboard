@@ -94,13 +94,14 @@ const PdfLink = styled("a")({
   cursor: "pointer",
 });
 
-export const StyledEventUpload = ({ label, value, onChange }) => {
+export const StyledEventUpload = ({ label, value, onChange, isUpdate }) => {
+  const baseURL = import.meta.env.VITE_API_IMAGE_URL;
   const fileInputRef = useRef(null);
   const [selectedMedia, setSelectedMedia] = useState(value || null);
   const [mediaType, setMediaType] = useState(null);
   const [fileName, setFileName] = useState("");
   const [pdfUrl, setPdfUrl] = useState(null);
-
+  const [data, setData] = useState(false);
   const handleIconClick = () => {
     fileInputRef.current.click();
   };
@@ -121,13 +122,14 @@ export const StyledEventUpload = ({ label, value, onChange }) => {
       }
       setSelectedMedia(mediaUrl);
       setFileName(file.name);
+
       onChange(file);
     }
   };
 
   useEffect(() => {
     if (value && typeof value === "string") {
-      const fileType = value.split('.').pop().toLowerCase(); // Get the extension of the media
+      const fileType = value.split(".").pop().toLowerCase(); // Get the extension of the media
 
       // Handle different types of existing media based on extension
       if (fileType.match(/(jpg|jpeg|png|gif)/)) {
@@ -141,7 +143,7 @@ export const StyledEventUpload = ({ label, value, onChange }) => {
       setSelectedMedia(value); // Set URL or base64 string
     }
   }, [value]);
-console.log("vidyo",value);
+  console.log("vidyo", value);
 
   return (
     <>
@@ -170,13 +172,20 @@ console.log("vidyo",value);
         <MediaPreviewContainer>
           <MediaPreview>
             {mediaType === "image" ? (
-              <ImagePreview src={selectedMedia} alt="Image Preview" />
+              <ImagePreview
+                src={isUpdate && !fileName ? `${baseURL}${value}` : selectedMedia}
+                alt="Image Preview"
+              />
             ) : mediaType === "video" ? (
               <VideoPreview src={selectedMedia} controls />
             ) : mediaType === "pdf" ? (
               <PdfPreviewContainer>
                 <PictureAsPdfIcon style={{ fontSize: 48, color: "#d32f2f" }} />
-                <PdfLink href={pdfUrl} target="_blank" rel="noopener noreferrer">
+                <PdfLink
+                  href={pdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Open PDF
                 </PdfLink>
               </PdfPreviewContainer>

@@ -179,6 +179,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                           setImageFile(file);
                           onChange(file);
                         }}
+                        isUpdate={isUpdate}
                         value={value}
                       />
                       {errors.image && (

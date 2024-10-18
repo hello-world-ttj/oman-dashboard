@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { StyledMultilineTextField } from "../../ui/StyledMultilineTextField";
 import { StyledEventUpload } from "../../ui/StyledEventUpload";
 import { useReportStore } from "../../store/reportStore";
+import { uploadDocs } from "../../api/adminapi";
 
 const AddReport = () => {
   const {
@@ -26,7 +27,6 @@ const AddReport = () => {
     useReportStore();
   const navigate = useNavigate();
 
-
   useEffect(() => {
     if (isUpdate && reportId) {
       fetchReportById(reportId);
@@ -38,34 +38,47 @@ const AddReport = () => {
       setValue("media", singleReport?.media);
     }
   }, [singleReport, isUpdate, setValue]);
-const handleClear = (event) => {
-  event.preventDefault();
-  reset();
-  navigate(-1);
-}
+  const handleClear = (event) => {
+    event.preventDefault();
+    reset();
+    navigate(-1);
+  };
 
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      // let imageUrl = data?.image || "";
+      let imageUrl = data?.image || "";
+      let mediaUrl = data?.media || "";
 
-      // if (imageFile) {
-      //   try {
-      //     imageUrl = await new Promise((resolve, reject) => {
-      //       uploadFileToS3(
-      //         imageFile,
-      //         (location) => resolve(location),
-      //         (error) => reject(error)
-      //       );
-      //     });
-      //   } catch (error) {
-      //     console.error("Failed to upload image:", error);
-      //     return;
-      //   }
-      // }
+      const uploadFile = async (file) => {
+        try {
+          const response = await uploadDocs(file);
+          return response.data;
+        } catch (error) {
+          console.error("Failed to upload file:", error);
+          throw error;
+        }
+      };
+
+      if (imageFile) {
+        try {
+          imageUrl = await uploadFile(imageFile);
+        } catch (error) {
+          return;
+        }
+      }
+
+      if (mediaUrl) {
+        try {
+          mediaUrl = await uploadFile(mediaFile);
+        } catch (error) {
+          return;
+        }
+      }
+
       const formData = {
-        image: "https://financialcrimeacademy.org/wp-content/uploads/2023/09/31d6315d-2988-4b20-9d2d-71d9df38cd29.png",
-        media:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        image: imageUrl,
+        media: mediaUrl,
       };
       if (isUpdate && reportId) {
         await updateReport(reportId, formData);
@@ -111,6 +124,7 @@ const handleClear = (event) => {
                       setImageFile(file);
                       onChange(file);
                     }}
+                    isUpdate={isUpdate}
                     value={value}
                   />
                   {errors.image && (
@@ -141,6 +155,7 @@ const handleClear = (event) => {
                       setMediaFile(file);
                       onChange(file);
                     }}
+                    isUpdate={isUpdate}
                     value={value}
                   />
                   {errors.media && (
@@ -153,7 +168,11 @@ const handleClear = (event) => {
           <Grid item xs={6}></Grid>
           <Grid item xs={6}>
             <Stack direction={"row"} spacing={2} justifyContent={"flex-end"}>
-              <StyledButton name="Cancel" variant="secondary"onClick={(event) => handleClear(event)} />
+              <StyledButton
+                name="Cancel"
+                variant="secondary"
+                onClick={(event) => handleClear(event)}
+              />
               <StyledButton
                 name={loading ? "Saving..." : "Save"}
                 variant="primary"
