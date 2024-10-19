@@ -12,6 +12,7 @@ import {
 import { ReactComponent as CloseIcon } from "../../assets/icons/CloseIcon.svg";
 
 const ReportView = ({ open, onClose, data }) => {
+  const baseURL = import.meta.env.VITE_API_IMAGE_URL;
   return (
     <Dialog
       open={open}
@@ -40,7 +41,7 @@ const ReportView = ({ open, onClose, data }) => {
           {data?.image && (
             <CardMedia
               component="img"
-              image={data.image}
+              image={`${baseURL}${data?.image}`}
               alt="Report Image"
               sx={{
                 borderRadius: "12px",
@@ -62,7 +63,7 @@ const ReportView = ({ open, onClose, data }) => {
                   backgroundColor: "#c1172b",
                 },
               }}
-              href={data?.media}
+              href={`${baseURL}${data?.media}`}
               target="_blank"
             >
               View/Download Report PDF

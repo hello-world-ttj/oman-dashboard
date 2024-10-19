@@ -16,6 +16,7 @@ const EventView = ({ open, onClose, data }) => {
     const videoId = new URL(url).pathname.split("/")[1];
     return videoId;
   };
+  const baseURL = import.meta.env.VITE_API_IMAGE_URL;
   return (
     <Dialog
       open={open}
@@ -52,7 +53,7 @@ const EventView = ({ open, onClose, data }) => {
             <Grid item xs={12} md={6}>
               <CardMedia
                 component="img"
-                image={data?.image}
+                image={`${baseURL}${data?.image}`}
                 alt={data?.title?.en}
                 sx={{
                   borderRadius: "12px",

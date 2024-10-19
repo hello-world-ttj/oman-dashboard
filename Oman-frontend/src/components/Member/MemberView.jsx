@@ -12,6 +12,7 @@ import {
 import { ReactComponent as CloseIcon } from "../../assets/icons/CloseIcon.svg";
 
 const MemberView = ({ open, onClose, data }) => {
+  const baseURL = import.meta.env.VITE_API_IMAGE_URL;
   return (
     <Dialog
       open={open}
@@ -48,7 +49,7 @@ const MemberView = ({ open, onClose, data }) => {
             >
               <CardMedia
                 component="img"
-                image={data.image}
+                image={`${baseURL}${data?.image}`}
                 alt={data?.name?.en}
                 sx={{
                   width: "100%",
