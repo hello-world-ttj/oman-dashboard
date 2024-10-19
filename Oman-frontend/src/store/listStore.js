@@ -5,6 +5,7 @@ import { getMember } from "../api/memberapi";
 import { getCareer } from "../api/careerapi";
 import { getReport } from "../api/reportapi";
 import { getProduct } from "../api/productapi";
+import { getGallery } from "../api/galleryapi";
 
 const useListStore = create((set, get) => ({
   lists: [],
@@ -41,8 +42,6 @@ const useListStore = create((set, get) => ({
     set({ totalCount: allData?.totalCount || 0 });
     set({ loading: false });
   },
- 
-
 
   fetchNews: async (filter) => {
     set({ loading: true });
@@ -72,6 +71,13 @@ const useListStore = create((set, get) => ({
     set({ totalCount: allData?.totalCount || 0 });
     set({ loading: false });
   },
+  fetchGallery: async (filter) => {
+    set({ loading: true });
+    const allData = await getGallery(filter);
+    set({ lists: allData?.data || [] });
+    set({ totalCount: allData?.totalCount || 0 });
+    set({ loading: false });
+  },
   fetchReport: async (filter) => {
     set({ loading: true });
     const allData = await getReport(filter);
@@ -86,8 +92,6 @@ const useListStore = create((set, get) => ({
     set({ totalCount: allData?.totalCount || 0 });
     set({ loading: false });
   },
- 
-
 }));
 
 export { useListStore };

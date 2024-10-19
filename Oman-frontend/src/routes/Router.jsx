@@ -15,6 +15,8 @@ import CareerPage from "../pages/Careers/CareerPage";
 import AddCareerPage from "../pages/Careers/AddCareerPage";
 import ProductPage from "../pages/product/ProductPage";
 import AddProductPage from "../pages/product/AddProductPage";
+import GalleryPage from "../pages/Gallery/GalleryPage";
+import AddGalleryPage from "../pages/Gallery/AddGalleryPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -109,6 +111,26 @@ const router = createBrowserRouter([
       <PrivateRoute>
         <Layout>
           <AddCareerPage />
+        </Layout>
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "/gallery",
+    element: (
+      <PrivateRoute>
+        <Layout>
+          <GalleryPage />
+        </Layout>
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "/gallery/gallery",
+    element: (
+      <PrivateRoute>
+        <Layout>
+          <AddGalleryPage />
         </Layout>
       </PrivateRoute>
     ),

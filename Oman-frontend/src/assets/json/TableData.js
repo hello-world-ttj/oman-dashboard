@@ -16,6 +16,10 @@ export const careerColumns = [
   { title: "Title", field: "title", padding: "none" },
   { title: "Expiry Date", field: "expiryDate" },
 ];
+export const galleryColumns = [
+  { title: "Title", field: "title", padding: "none" },
+  { title: "Image", field: "image" },
+];
 export const paymentColumns = [
   { title: "Member name", field: "fullName", padding: "none" },
   { title: "Date", field: "createdAt" },
