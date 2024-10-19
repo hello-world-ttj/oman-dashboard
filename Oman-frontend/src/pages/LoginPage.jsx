@@ -26,7 +26,7 @@ function LoginPage() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [showOTP, setShowOTP] = useState(false);
+  const [showOTP, setShowOTP] = useState(true);
   const [loginError, setLoginError] = useState(false);
 
   const onSubmit = async (data) => {
@@ -54,7 +54,7 @@ function LoginPage() {
       <Grid item xs={12} sm={8} md={6} lg={4}>
         <Box sx={{ p: 4, bgcolor: "#FFFFFF", borderRadius: 5, boxShadow: 2 }}>
           <Stack spacing={3} justifyContent="center" alignItems={"center"}>
-          <Typography fontWeight={600} fontSize={"16px"} color="#0C93D3">OMAN CHLORINE S.A.O.G</Typography>
+          <Typography fontWeight={600} fontSize={"16px"} color="#0C93D3">CHLORINE DASHBOARD</Typography>
           </Stack>
 
           <Stack
@@ -185,9 +185,6 @@ function LoginPage() {
 
           {/* Forgot Password Link */}
           <Grid marginTop={2}>
-            <Link href="#" variant="body2" align="center">
-              Forgot Your Password?
-            </Link>
           </Grid>
         </Box>
       </Grid>

@@ -27,7 +27,7 @@ import { ReactComponent as LogoutIcon } from "../assets/icons/LogoutIcon.svg";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import NewspaperOutlinedIcon from "@mui/icons-material/NewspaperOutlined";
 import ScienceIcon from "@mui/icons-material/Science";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import CollectionsIcon from "@mui/icons-material/Collections";
 import EventNoteOutlinedIcon from "@mui/icons-material/EventNoteOutlined";
 import ApprovalOutlinedIcon from "@mui/icons-material/ApprovalOutlined";
 import { useAdminStore } from "../store/adminStore";
@@ -48,9 +48,9 @@ const subNavigation = [
   //   to: "/careers",
   //   icon: <CalendarMonthIcon />,
   // },
-  { name: "Gallery", to: "/gallery", icon: <ScienceIcon /> },
+  { name: "Gallery", to: "/gallery", icon: <CollectionsIcon /> },
 
-  { name: "News and Updates", to: "/news", icon: <NewspaperOutlinedIcon /> },
+  { name: "News", to: "/news", icon: <NewspaperOutlinedIcon /> },
 ];
 const SimpleDialog = ({ open, onClose }) => {
   const navigate = useNavigate();
@@ -156,7 +156,7 @@ const Layout = (props) => {
         <Stack justifyContent={"flex-start"} spacing={2}>
           {/* <img src={logo} alt="Logo" width={"100%"} height="100%" /> */}
           <Typography fontWeight={600} fontSize={"16px"} color="#0C93D3">
-            OMAN CHLORINE S.A.O.G
+            CHLORINE DASHBOARD
           </Typography>
         </Stack>
       </Toolbar>
