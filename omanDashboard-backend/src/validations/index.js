@@ -118,6 +118,7 @@ exports.createReportSchema = Joi.object({
   image: Joi.string().required(),
   media: Joi.string().required(),
   status: Joi.string(),
+  site: Joi.array().required(),
 });
 exports.editReportSchema = Joi.object({
   image: Joi.string(),
