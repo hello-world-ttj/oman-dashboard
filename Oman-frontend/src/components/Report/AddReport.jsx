@@ -9,6 +9,7 @@ import { StyledMultilineTextField } from "../../ui/StyledMultilineTextField";
 import { StyledEventUpload } from "../../ui/StyledEventUpload";
 import { useReportStore } from "../../store/reportStore";
 import { uploadDocs } from "../../api/adminapi";
+import StyledSelectField from "../../ui/StyledSelectField";
 
 const AddReport = () => {
   const {
@@ -32,10 +33,19 @@ const AddReport = () => {
       fetchReportById(reportId);
     }
   }, [reportId, isUpdate, fetchReportById]);
+  const siteOptions = [
+    { value: "gulfchlorine", label: "Gulfchlorine" },
+    { value: "unionchlorine", label: "Unionchlorine" },
+    { value: "omanchlorine", label: "Omanchlorine" },
+  ];
   useEffect(() => {
     if (singleReport && isUpdate) {
       setValue("image", singleReport?.image);
       setValue("media", singleReport?.media);
+      const selectedSite = singleReport?.site?.map((Id) =>
+        siteOptions.find((option) => option?.value === Id)
+      );
+      setValue("site", selectedSite || []);
     }
   }, [singleReport, isUpdate, setValue]);
   const handleClear = (event) => {
@@ -79,6 +89,7 @@ const AddReport = () => {
       const formData = {
         image: imageUrl,
         media: mediaUrl,
+        site: data?.site.map((i) => i.value),
       };
       if (isUpdate && reportId) {
         await updateReport(reportId, formData);
@@ -160,6 +171,32 @@ const AddReport = () => {
                   />
                   {errors.media && (
                     <span style={{ color: "red" }}>{errors.media.message}</span>
+                  )}
+                </>
+              )}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="h6" color="textSecondary">
+              Site
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Controller
+              name="site"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Site is required" }}
+              render={({ field }) => (
+                <>
+                  <StyledSelectField
+                    isMulti
+                    placeholder="Choose the Site"
+                    options={siteOptions}
+                    {...field}
+                  />
+                  {errors.site && (
+                    <span style={{ color: "red" }}>{errors.site.message}</span>
                   )}
                 </>
               )}

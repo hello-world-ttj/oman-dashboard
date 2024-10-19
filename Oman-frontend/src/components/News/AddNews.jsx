@@ -43,6 +43,11 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
     { value: "Entertainment", label: "Entertainment" },
     { value: "Economy", label: "Economy" },
   ];
+  const siteOptions = [
+    { value: "gulfchlorine", label: "Gulfchlorine" },
+    { value: "unionchlorine", label: "Unionchlorine" },
+    { value: "omanchlorine", label: "Omanchlorine" },
+  ];
   useEffect(() => {
     if (isUpdate && id) {
       fetchNewsById(id);
@@ -59,6 +64,10 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
       setValue("en_content", singleNews?.content?.en);
       setValue("ar_content", singleNews?.content?.ar);
       setValue("image", singleNews.image);
+      const selectedSite = singleNews?.site?.map((Id) =>
+        siteOptions.find((option) => option?.value === Id)
+      );
+      setValue("site", selectedSite || []);
       setValue("banner", singleNews.banner);
     }
   }, [singleNews, isUpdate, setValue]);
@@ -106,6 +115,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
           ar: data.ar_content,
         },
         image: imageUrl,
+        site: data?.site.map((i) => i.value),
         banner: bannerUrl,
       };
       if (isUpdate && id) {
@@ -310,6 +320,33 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
               )}
             />
           </Grid>
+          <Grid item xs={12}>
+                <Typography variant="h6" color="textSecondary">
+                  Site
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Controller
+                  name="site"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "Site is required" }}
+                  render={({ field }) => (
+                    <>
+                      <StyledSelectField isMulti
+                        placeholder="Choose the Site"
+                        options={siteOptions}
+                        {...field}
+                      />
+                      {errors.site && (
+                        <span style={{ color: "red" }}>
+                          {errors.site.message}
+                        </span>
+                      )}
+                    </>
+                  )}
+                />
+              </Grid>
           <Grid item xs={6}></Grid>
           <Grid item xs={6} display={"flex"} justifyContent={"end"}>
             <Stack direction={"row"} spacing={2}>

@@ -34,7 +34,15 @@ const AddMember = () => {
       fetchMemberById(memberId);
     }
   }, [memberId, isUpdate]);
-
+  const typeOptions = [
+    { value: "team", label: "Team Member" },
+    { value: "board", label: "Board Member" },
+  ];
+  const siteOptions = [
+    { value: "gulfchlorine", label: "Gulfchlorine" },
+    { value: "unionchlorine", label: "Unionchlorine" },
+    { value: "omanchlorine", label: "Omanchlorine" },
+  ];
   useEffect(() => {
     if (isUpdate && member) {
       setValue("en_name", member?.name?.en || "");
@@ -42,7 +50,10 @@ const AddMember = () => {
 
       setValue("en_designation", member?.designation?.en || "");
       setValue("ar_designation", member?.designation?.ar || "");
-
+      const selectedSite = member?.site?.map((Id) =>
+        siteOptions.find((option) => option?.value === Id)
+      );
+      setValue("site", selectedSite || []);
       setValue("en_bio", member?.bio?.en || "");
       setValue("ar_bio", member?.bio?.ar || "");
       setValue("image", member?.image || "");
@@ -53,11 +64,6 @@ const AddMember = () => {
       setValue("type", selectedType || "");
     }
   }, [member, isUpdate, setValue]);
-
-  const typeOptions = [
-    { value: "team", label: "Team Member" },
-    { value: "board", label: "Board Member" },
-  ];
 
   const handleClear = (event) => {
     event.preventDefault();
@@ -97,6 +103,7 @@ const AddMember = () => {
           en: data?.en_designation,
           ar: data?.ar_designation,
         },
+        site: data?.site.map((i) => i.value),
         type: data?.type.value,
         bio: {
           en: data?.en_bio,
@@ -279,6 +286,33 @@ const AddMember = () => {
                       {errors.type && (
                         <span style={{ color: "red" }}>
                           {errors.type.message}
+                        </span>
+                      )}
+                    </>
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="h6" color="textSecondary">
+                  Site
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Controller
+                  name="site"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "Site is required" }}
+                  render={({ field }) => (
+                    <>
+                      <StyledSelectField isMulti
+                        placeholder="Choose the Site"
+                        options={siteOptions}
+                        {...field}
+                      />
+                      {errors.site && (
+                        <span style={{ color: "red" }}>
+                          {errors.site.message}
                         </span>
                       )}
                     </>

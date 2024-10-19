@@ -9,6 +9,7 @@ import { useEventStore } from "../../store/eventStore.js";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { uploadDocs } from "../../api/adminapi.js";
+import StyledSelectField from "../../ui/StyledSelectField.jsx";
 
 export default function AddEvent({ setSelectedTab, isUpdate }) {
   const {
@@ -30,12 +31,19 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
       fetchEventById(id);
     }
   }, [isUpdate, id, fetchEventById]);
-
+  const siteOptions = [
+    { value: "gulfchlorine", label: "Gulfchlorine" },
+    { value: "unionchlorine", label: "Unionchlorine" },
+    { value: "omanchlorine", label: "Omanchlorine" },
+  ];
   useEffect(() => {
     if (event && isUpdate) {
       setValue("en_title", event?.title?.en);
       setValue("ar_title", event?.title?.ar);
-
+      const selectedSite = event?.site?.map((Id) =>
+        siteOptions.find((option) => option?.value === Id)
+      );
+      setValue("site", selectedSite || []);
       setValue("image", event.image);
       setValue("video", event.video);
     }
@@ -80,6 +88,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
         },
         video: data?.video,
         image: imageUrl,
+        site: data?.site.map((i) => i.value),
       };
 
       if (isUpdate && id) {
@@ -207,12 +216,40 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                   render={({ field }) => (
                     <>
                       <StyledInput
-                        placeholder="Enter the video url"
+                        placeholder="Enter the youtube url"
                         {...field}
                       />
                       {errors.video && (
                         <span style={{ color: "red" }}>
                           {errors.video.message}
+                        </span>
+                      )}
+                    </>
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="h6" color="textSecondary">
+                  Site
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Controller
+                  name="site"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "Site is required" }}
+                  render={({ field }) => (
+                    <>
+                      <StyledSelectField
+                        isMulti
+                        placeholder="Choose the Site"
+                        options={siteOptions}
+                        {...field}
+                      />
+                      {errors.site && (
+                        <span style={{ color: "red" }}>
+                          {errors.site.message}
                         </span>
                       )}
                     </>

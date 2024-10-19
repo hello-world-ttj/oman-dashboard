@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { StyledEventUpload } from "../../ui/StyledEventUpload";
 import { uploadDocs } from "../../api/adminapi";
 import { useGalleryStore } from "../../store/galleryStore";
+import StyledSelectField from "../../ui/StyledSelectField";
 
 const AddGallery = () => {
   const {
@@ -30,11 +31,20 @@ const AddGallery = () => {
       fetchGalleryById(groupId);
     }
   }, [groupId, isUpdate, fetchGalleryById]);
+  const siteOptions = [
+    { value: "gulfchlorine", label: "Gulfchlorine" },
+    { value: "unionchlorine", label: "Unionchlorine" },
+    { value: "omanchlorine", label: "Omanchlorine" },
+  ];
   useEffect(() => {
     if (singleGallery && isUpdate) {
       setValue("en_title", singleGallery?.title?.en);
       setValue("ar_title", singleGallery?.title?.ar);
       setValue("image", singleGallery?.image);
+      const selectedSite = singleGallery?.site?.map((Id) =>
+        siteOptions.find((option) => option?.value === Id)
+      );
+      setValue("site", selectedSite || []);
     }
   }, [singleGallery, isUpdate, setValue]);
   const handleClear = (event) => {
@@ -71,6 +81,7 @@ const AddGallery = () => {
           ar: data.ar_title,
         },
         image: imageUrl,
+        site: data?.site.map((i) => i.value),
       };
       if (isUpdate && groupId) {
         await updateGallery(groupId, formData);
@@ -175,7 +186,32 @@ const AddGallery = () => {
               )}
             />
           </Grid>
-
+          <Grid item xs={12}>
+            <Typography variant="h6" color="textSecondary">
+              Site
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Controller
+              name="site"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Site is required" }}
+              render={({ field }) => (
+                <>
+                  <StyledSelectField
+                    isMulti
+                    placeholder="Choose the Site"
+                    options={siteOptions}
+                    {...field}
+                  />
+                  {errors.site && (
+                    <span style={{ color: "red" }}>{errors.site.message}</span>
+                  )}
+                </>
+              )}
+            />
+          </Grid>
           <Grid item xs={6}></Grid>
           <Grid item xs={6}>
             <Stack direction={"row"} spacing={2} justifyContent={"flex-end"}>
