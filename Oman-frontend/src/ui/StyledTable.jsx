@@ -147,7 +147,7 @@ const StyledTable = ({
       case "active":
         return "#4CAF50";
       case "unionchlorine":
-        return "#9E9E9E";
+        return "#4CAF50";
       case "cancelled":
         return "#FF5722";
       case "published":
