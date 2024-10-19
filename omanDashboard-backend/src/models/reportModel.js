@@ -9,6 +9,7 @@ const ReportSchema = mongoose.Schema(
     status: {
       type: String,
     },
+    site: [{ type: String, trim: true }],
   },
   { timestamps: true }
 );

@@ -17,6 +17,7 @@ const CareerSchema = mongoose.Schema(
     status: {
       type: Boolean,
     },
+    site: [{ type: String, trim: true }],
   },
   { timestamps: true }
 );

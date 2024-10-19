@@ -1,56 +1,56 @@
 const fs = require("fs");
 const responseHandler = require("../helpers/responseHandler");
-const Product = require("../models/productModel");
 const validations = require("../validations");
+const Gallery = require("../models/galleryModel");
 const uploadDir = "./uploads";
 
-exports.createProduct = async (req, res) => {
+exports.createGallery = async (req, res) => {
   try {
-    const createProductValidator = validations.createProductSchema.validate(
+    const createGalleryValidator = validations.createGallerySchema.validate(
       req.body,
       {
         abortEarly: true,
       }
     );
 
-    if (createProductValidator.error) {
+    if (createGalleryValidator.error) {
       return responseHandler(
         res,
         400,
-        `Invalid input: ${createProductValidator.error}`
+        `Invalid input: ${createGalleryValidator.error}`
       );
     }
 
-    const newProduct = await Product.create(req.body);
-    if (!newProduct) {
-      return responseHandler(res, 400, `Product creation failed...!`);
+    const newGallery = await Gallery.create(req.body);
+    if (!newGallery) {
+      return responseHandler(res, 400, `Gallery creation failed...!`);
     }
     return responseHandler(
       res,
       201,
-      `New Product created successfull..!`,
-      newProduct
+      `New Gallery created successfull..!`,
+      newGallery
     );
   } catch (error) {
     return responseHandler(res, 500, `Internal Server Error ${error.message}`);
   }
 };
 
-exports.getProduct = async (req, res) => {
+exports.getGallery = async (req, res) => {
   try {
     const { id } = req.params;
 
     if (!id) {
-      return responseHandler(res, 400, "Product with this Id is required");
+      return responseHandler(res, 400, "Gallery with this Id is required");
     }
 
-    const findProduct = await Product.findById(id);
-    if (findProduct) {
+    const findGallery = await Gallery.findById(id);
+    if (findGallery) {
       return responseHandler(
         res,
         200,
-        `Product found successfull..!`,
-        findProduct
+        `Gallery found successfull..!`,
+        findGallery
       );
     }
   } catch (error) {
@@ -58,15 +58,15 @@ exports.getProduct = async (req, res) => {
   }
 };
 
-exports.updateProduct = async (req, res) => {
+exports.updateGallery = async (req, res) => {
   try {
     const { id } = req.params;
 
     if (!id) {
-      return responseHandler(res, 400, "Product Id is required");
+      return responseHandler(res, 400, "Gallery Id is required");
     }
 
-    const { error } = validations.editProductSchema.validate(req.body, {
+    const { error } = validations.editGallerySchema.validate(req.body, {
       abortEarly: true,
     });
 
@@ -74,15 +74,15 @@ exports.updateProduct = async (req, res) => {
       return responseHandler(res, 400, `Invalid input: ${error.message}`);
     }
 
-    const updateProduct = await Product.findByIdAndUpdate(id, req.body, {
+    const updateGallery = await Gallery.findByIdAndUpdate(id, req.body, {
       new: true,
     });
-    if (this.updateProduct) {
+    if (updateGallery) {
       return responseHandler(
         res,
         200,
-        `Product updated successfull..!`,
-        updateProduct
+        `Gallery updated successfull..!`,
+        updateGallery
       );
     }
   } catch (error) {
@@ -90,48 +90,44 @@ exports.updateProduct = async (req, res) => {
   }
 };
 
-exports.deleteProduct = async (req, res) => {
+exports.deleteGallery = async (req, res) => {
   try {
     const { id } = req.params;
 
     if (!id) {
-      return responseHandler(res, 400, "Product Id is required");
+      return responseHandler(res, 400, "Gallery Id is required");
     }
 
-    const findProduct = await Product.findById(id);
-    const absolutePath = `${uploadDir}/${findProduct.image}`;
+    const findGallery = await Gallery.findById(id);
+    const absolutePath = `${uploadDir}/${findGallery.image}`;
     await fs.promises.access(absolutePath);
     await fs.promises.unlink(absolutePath);
-    if (!findProduct) {
-      return responseHandler(res, 404, "Product not found");
+    if (!findGallery) {
+      return responseHandler(res, 404, "Gallery not found");
     }
 
-    const deleteProduct = await Product.findByIdAndDelete(id);
-    if (deleteProduct) {
-      return responseHandler(res, 200, `Product deleted successfull..!`);
+    const deleteGallery = await Gallery.findByIdAndDelete(id);
+    if (deleteGallery) {
+      return responseHandler(res, 200, `Gallery deleted successfull..!`);
     }
   } catch (error) {
     return responseHandler(res, 500, `Internal Server Error ${error.message}`);
   }
 };
 
-exports.getAllProduct = async (req, res) => {
+exports.getAllGallery = async (req, res) => {
   try {
-    const { pageNo = 1, search, type, limit = 10 } = req.query;
+    const { pageNo = 1, search, limit = 10 } = req.query;
     const skipCount = 10 * (pageNo - 1);
     const filter = {};
-    if (type) {
-      filter.type = type;
-    }
 
     if (search) {
       filter.$or = [
         { "title.en": { $regex: search, $options: "i" } },
-        { "description.en": { $regex: search, $options: "i" } },
       ];
     }
-    const totalCount = await Product.countDocuments(filter);
-    const data = await Product.find(filter)
+    const totalCount = await Gallery.countDocuments(filter);
+    const data = await Gallery.find(filter)
       .skip(skipCount)
       .limit(limit)
       .sort({ createdAt: -1, _id: 1 })

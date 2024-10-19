@@ -13,30 +13,20 @@ exports.editAdminSchema = Joi.object({
   phone: Joi.string(),
   status: Joi.boolean(),
 });
-exports.createProductSchema = Joi.object({
-  description: Joi.object({
-    en: Joi.string().required(),
-    ar: Joi.string().required(),
-  }).required(),
+exports.createGallerySchema = Joi.object({
   title: Joi.object({
     en: Joi.string().required(),
     ar: Joi.string().required(),
   }).required(),
   image: Joi.string().required(),
-  status: Joi.boolean(),
 });
 
-exports.editProductSchema = Joi.object({
-  description: Joi.object({
-    en: Joi.string(),
-    ar: Joi.string(),
-  }),
+exports.editGallerySchema = Joi.object({
   title: Joi.object({
     en: Joi.string(),
     ar: Joi.string(),
   }),
   image: Joi.string(),
-  status: Joi.boolean(),
 });
 exports.createCareerSchema = Joi.object({
   description: Joi.object({
