@@ -140,13 +140,13 @@ const StyledTable = ({
       return status ? "green" : "red";
     }
     switch (status) {
-      case "pending":
+      case "gulfchlorine":
         return "#FF9F00";
-      case "rejected":
+      case "omanchlorine":
         return "#C62828";
       case "active":
         return "#4CAF50";
-      case "deleted":
+      case "unionchlorine":
         return "#9E9E9E";
       case "cancelled":
         return "#FF5722";
@@ -295,31 +295,51 @@ const StyledTable = ({
                             style={{ width: "50px", height: "50px" }}
                           />{" "}
                         </>
-                      ) : column.field === "status" ||
-                        column.field === "activate" ? (
+                      ) : column.field === "site" ? (
                         <Box
                           display="flex"
                           alignItems="center"
                           justifyContent="center"
                         >
-                          <span
-                            style={{
-                              backgroundColor: getStatusVariant(
-                                row[column.field]
-                              ),
-                              padding: "3px 8px",
-                              borderRadius: "100px",
-                              color: "#fff",
-                            }}
-                          >
-                            {row[column.field] === true ||
-                            row[column.field] === "activated"
-                              ? "active"
-                              : row[column.field] === false ||
-                                row[column.field] === "deactivated"
-                              ? "inactive"
-                              : row[column.field]}
-                          </span>
+                          {Array.isArray(row[column.field]) ? (
+                            row[column.field].map((site, index) => (
+                              <span
+                                key={index}
+                                style={{
+                                  backgroundColor: getStatusVariant(site),
+                                  padding: "3px 8px",
+                                  borderRadius: "100px",
+                                  color: "#fff",
+                                  marginRight: "5px", // Add margin between badges
+                                }}
+                              >
+                                {site === true || site === "activated"
+                                  ? "active"
+                                  : site === false || site === "deactivated"
+                                  ? "inactive"
+                                  : site}
+                              </span>
+                            ))
+                          ) : (
+                            <span
+                              style={{
+                                backgroundColor: getStatusVariant(
+                                  row[column.field]
+                                ),
+                                padding: "3px 8px",
+                                borderRadius: "100px",
+                                color: "#fff",
+                              }}
+                            >
+                              {row[column.field] === true ||
+                              row[column.field] === "activated"
+                                ? "active"
+                                : row[column.field] === false ||
+                                  row[column.field] === "deactivated"
+                                ? "inactive"
+                                : row[column.field]}
+                            </span>
+                          )}
                         </Box>
                       ) : row[column.field] &&
                         typeof row[column.field] === "object" ? (

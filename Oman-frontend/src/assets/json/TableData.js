@@ -3,6 +3,7 @@ export const memberColumns = [
   { title: "Designation", field: "designation" },
   { title: "Image", field: "image" },
   { title: "Type", field: "type" },
+  {title:"Site",field:"site",padding:"none"},
 ];
 export const groupmemberColumns = [
   { title: "Member ID", field: "memberId", padding: "none" },
@@ -19,6 +20,7 @@ export const careerColumns = [
 export const galleryColumns = [
   { title: "Title", field: "title", padding: "none" },
   { title: "Image", field: "image" },
+  {title:"Site",field:"site",padding:"none"},
 ];
 export const paymentColumns = [
   { title: "Member name", field: "fullName", padding: "none" },
@@ -31,6 +33,7 @@ export const paymentColumns = [
 export const reportColumns = [
   { title: "Image", field: "image", padding: "none" },
   { title: "Created on", field: "createdAt" },
+  {title:"Site",field:"site",padding:"none"},
 ];
 export const productColumns = [
   { title: "Title", field: "title", padding: "none" },
@@ -95,12 +98,14 @@ export const roleColumns = [
 export const eventList = [
   { title: "Name", field: "title", padding: "none" },
   { title: "Image", field: "image" },
+  { title: "Site", field: "site" },
  
 ];
 export const newsColumns = [
   { title: "Category", field: "tag", padding: "none" },
 
   { title: "Title", field: "title" },
+  {title:"Site",field:"site",padding:"none"},
 ];
 export const userData = [
   {
