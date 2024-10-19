@@ -19,6 +19,7 @@ exports.createGallerySchema = Joi.object({
     ar: Joi.string().required(),
   }).required(),
   image: Joi.string().required(),
+  site: Joi.array().required(),
 });
 
 exports.editGallerySchema = Joi.object({
@@ -27,6 +28,7 @@ exports.editGallerySchema = Joi.object({
     ar: Joi.string(),
   }),
   image: Joi.string(),
+  site: Joi.array(),
 });
 exports.createCareerSchema = Joi.object({
   description: Joi.object({
@@ -40,6 +42,7 @@ exports.createCareerSchema = Joi.object({
   image: Joi.string().required(),
   expiryDate: Joi.date().required(),
   status: Joi.boolean(),
+  site: Joi.array().required(),
 });
 
 exports.editCareerSchema = Joi.object({
@@ -54,6 +57,7 @@ exports.editCareerSchema = Joi.object({
   image: Joi.string(),
   expiryDate: Joi.date(),
   status: Joi.boolean(),
+  site: Joi.array(),
 });
 
 exports.createEventSchema = Joi.object({
@@ -64,6 +68,7 @@ exports.createEventSchema = Joi.object({
   image: Joi.string().required(),
   video: Joi.string().required(),
   status: Joi.string(),
+  site: Joi.array().required(),
 });
 
 exports.editEventSchema = Joi.object({
@@ -74,6 +79,7 @@ exports.editEventSchema = Joi.object({
   image: Joi.string(),
   video: Joi.string(),
   status: Joi.string(),
+  site: Joi.array(),
 });
 
 exports.createNewsSchema = Joi.object({
@@ -89,6 +95,7 @@ exports.createNewsSchema = Joi.object({
   image: Joi.string().required(),
   banner: Joi.string().required(),
   status: Joi.string().valid("published", "unpublished"),
+  site: Joi.array().required(),
 });
 
 exports.editNewsSchema = Joi.object({
@@ -104,6 +111,7 @@ exports.editNewsSchema = Joi.object({
   image: Joi.string(),
   banner: Joi.string(),
   status: Joi.string().valid("published", "unpublished"),
+  site: Joi.array(),
 });
 
 exports.createReportSchema = Joi.object({
@@ -115,6 +123,7 @@ exports.editReportSchema = Joi.object({
   image: Joi.string(),
   media: Joi.string(),
   status: Joi.string(),
+  site: Joi.array(),
 });
 
 exports.createUserSchema = Joi.object({
@@ -133,6 +142,7 @@ exports.createUserSchema = Joi.object({
   image: Joi.string().required(),
   type: Joi.string().required(),
   status: Joi.string(),
+  site: Joi.array().required(),
 });
 
 exports.editUserSchema = Joi.object({
@@ -151,4 +161,5 @@ exports.editUserSchema = Joi.object({
   image: Joi.string(),
   type: Joi.string(),
   status: Joi.string(),
+  site: Joi.array(),
 });
