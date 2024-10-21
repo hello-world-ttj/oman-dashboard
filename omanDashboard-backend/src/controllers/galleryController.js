@@ -117,14 +117,14 @@ exports.deleteGallery = async (req, res) => {
 
 exports.getAllGallery = async (req, res) => {
   try {
-    const { pageNo = 1, search, limit = 10 } = req.query;
+    const { pageNo = 1, search, site, limit = 10 } = req.query;
     const skipCount = 10 * (pageNo - 1);
     const filter = {};
-
+    if (site) {
+      filter.site = { $in: [site] };
+    }
     if (search) {
-      filter.$or = [
-        { "title.en": { $regex: search, $options: "i" } },
-      ];
+      filter.$or = [{ "title.en": { $regex: search, $options: "i" } }];
     }
     const totalCount = await Gallery.countDocuments(filter);
     const data = await Gallery.find(filter)

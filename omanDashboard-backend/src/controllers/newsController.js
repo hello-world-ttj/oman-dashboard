@@ -119,11 +119,14 @@ exports.deleteNews = async (req, res) => {
 
 exports.getAllNews = async (req, res) => {
   try {
-    const { pageNo = 1, search, type, limit = 10 } = req.query;
+    const { pageNo = 1, search, type,site, limit = 10 } = req.query;
     const skipCount = 10 * (pageNo - 1);
     const filter = {};
     if (type) {
       filter.tag = type;
+    }
+    if (site) {
+      filter.site = { $in: [site] };
     }
     if (search) {
       filter.$or = [{ "title.en": { $regex: search, $options: "i" } }];

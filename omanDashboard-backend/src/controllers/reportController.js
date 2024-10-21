@@ -120,11 +120,14 @@ exports.deleteReport = async (req, res) => {
 
 exports.getAllReport = async (req, res) => {
   try {
-    const { pageNo = 1, type, limit = 10 } = req.query;
+    const { pageNo = 1, type,site, limit = 10 } = req.query;
     const skipCount = 10 * (pageNo - 1);
     const filter = {};
     if (type) {
       filter.type = type;
+    }
+    if (site) {
+      filter.site = { $in: [site] };
     }
     const totalCount = await Report.countDocuments(filter);
     const data = await Report.find(filter)

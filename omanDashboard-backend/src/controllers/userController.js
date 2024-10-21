@@ -117,11 +117,14 @@ exports.deleteUser = async (req, res) => {
 
 exports.getAllUser = async (req, res) => {
   try {
-    const { pageNo = 1, search, type, limit = 10 } = req.query;
+    const { pageNo = 1, search, type, site,limit = 10 } = req.query;
     const skipCount = 10 * (pageNo - 1);
     const filter = {};
     if (type) {
       filter.type = type;
+    }
+    if (site) {
+      filter.site = { $in: [site] };
     }
     if (search) {
       filter.$or = [
