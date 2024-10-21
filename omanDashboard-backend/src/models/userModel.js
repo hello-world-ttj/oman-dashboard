@@ -15,9 +15,7 @@ const UserSchema = mongoose.Schema(
       ar: { type: String },
     },
     image: { type: String },
-    type: {
-      type: String,
-    },
+    type: [{ type: String, trim: true }],
     status: {
       type: String,
     },
