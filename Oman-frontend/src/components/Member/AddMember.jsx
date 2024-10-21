@@ -58,8 +58,8 @@ const AddMember = () => {
       setValue("ar_bio", member?.bio?.ar || "");
       setValue("image", member?.image || "");
 
-      const selectedType = typeOptions?.find(
-        (item) => item?.value === member?.type
+      const selectedType = member?.type?.map((Id) =>
+        typeOptions.find((option) => option?.value === Id)
       );
       setValue("type", selectedType || "");
     }
@@ -104,7 +104,7 @@ const AddMember = () => {
           ar: data?.ar_designation,
         },
         site: data?.site.map((i) => i.value),
-        type: data?.type.value,
+        type: data?.type.map((i) => i.value),
         bio: {
           en: data?.en_bio,
           ar: data?.ar_bio,
@@ -281,6 +281,7 @@ const AddMember = () => {
                       <StyledSelectField
                         placeholder="Choose the Type"
                         options={typeOptions}
+                        isMulti
                         {...field}
                       />
                       {errors.type && (
@@ -305,7 +306,8 @@ const AddMember = () => {
                   rules={{ required: "Site is required" }}
                   render={({ field }) => (
                     <>
-                      <StyledSelectField isMulti
+                      <StyledSelectField
+                        isMulti
                         placeholder="Choose the Site"
                         options={siteOptions}
                         {...field}
