@@ -123,7 +123,7 @@ exports.getAllNews = async (req, res) => {
     const skipCount = 10 * (pageNo - 1);
     const filter = {};
     if (type) {
-      filter.tag = type;
+      filter.tag.en = type;
     }
     if (site) {
       filter.site = { $in: [site] };
