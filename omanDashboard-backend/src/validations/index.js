@@ -141,7 +141,7 @@ exports.createUserSchema = Joi.object({
     ar: Joi.string().required(),
   }).required(),
   image: Joi.string().required(),
-  type: Joi.string().required(),
+  type: Joi.array().required(),
   status: Joi.string(),
   site: Joi.array().required(),
 });
@@ -160,7 +160,7 @@ exports.editUserSchema = Joi.object({
     ar: Joi.string(),
   }),
   image: Joi.string(),
-  type: Joi.string(),
+  type: Joi.array(),
   status: Joi.string(),
   site: Joi.array(),
 });
