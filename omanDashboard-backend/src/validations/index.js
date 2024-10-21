@@ -83,10 +83,7 @@ exports.editEventSchema = Joi.object({
 });
 
 exports.createNewsSchema = Joi.object({
-  tag: Joi.object({
-    en: Joi.string().required(),
-    ar: Joi.string().required(),
-  }).required(),
+  tag: Joi.string().required(),
   title: Joi.object({
     en: Joi.string().required(),
     ar: Joi.string().required(),
@@ -102,10 +99,7 @@ exports.createNewsSchema = Joi.object({
 });
 
 exports.editNewsSchema = Joi.object({
-  tag: Joi.object({
-    en: Joi.string(),
-    ar: Joi.string(),
-  }),
+  tag: Joi.string(),
   title: Joi.object({
     en: Joi.string(),
     ar: Joi.string(),
@@ -147,7 +141,7 @@ exports.createUserSchema = Joi.object({
     ar: Joi.string().required(),
   }).required(),
   image: Joi.string().required(),
-  type: Joi.array().required(),
+  type: Joi.string().required(),
   status: Joi.string(),
   site: Joi.array().required(),
 });
@@ -166,7 +160,7 @@ exports.editUserSchema = Joi.object({
     ar: Joi.string(),
   }),
   image: Joi.string(),
-  type: Joi.array(),
+  type: Joi.string(),
   status: Joi.string(),
   site: Joi.array(),
 });
