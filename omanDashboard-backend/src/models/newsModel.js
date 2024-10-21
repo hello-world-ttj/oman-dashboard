@@ -2,14 +2,17 @@ const mongoose = require("mongoose");
 
 const NewsSchema = mongoose.Schema(
   {
-    tag: { type: String },
+    tag: {
+      en: { type: String },
+      ar: { type: String },
+    },
     title: {
-      en: { type: String }, 
-      ar: { type: String }, 
+      en: { type: String },
+      ar: { type: String },
     },
     content: {
-      en: { type: String },  
-      ar: { type: String },  
+      en: { type: String },
+      ar: { type: String },
     },
     image: { type: String },
     banner: { type: String },

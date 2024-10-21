@@ -83,7 +83,10 @@ exports.editEventSchema = Joi.object({
 });
 
 exports.createNewsSchema = Joi.object({
-  tag: Joi.string().required(),
+  tag: Joi.object({
+    en: Joi.string().required(),
+    ar: Joi.string().required(),
+  }).required(),
   title: Joi.object({
     en: Joi.string().required(),
     ar: Joi.string().required(),
@@ -99,7 +102,10 @@ exports.createNewsSchema = Joi.object({
 });
 
 exports.editNewsSchema = Joi.object({
-  tag: Joi.string(),
+  tag: Joi.object({
+    en: Joi.string(),
+    ar: Joi.string(),
+  }),
   title: Joi.object({
     en: Joi.string(),
     ar: Joi.string(),
