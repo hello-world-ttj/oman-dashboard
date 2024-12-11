@@ -17,7 +17,6 @@ jobs:
       PROJECT_DIR: oman-dashboard
       ENV_FILE_PATH: /home/ubuntu/oman/.env/.env.development
       APP_NAME: oman-backend
-      PORT: 3300
 
     steps:
       - name: Checkout repository
@@ -31,8 +30,8 @@ jobs:
           key: ${{ env.SSH_KEY }}
           script: |
             # Verify Node.js and npm installation
-            node -v
-            npm -v
+            node -v || { echo "Node.js not found"; exit 1; }
+            npm -v || { echo "npm not found"; exit 1; }
 
             # Install PM2 globally if not installed
             if ! command -v pm2 &> /dev/null; then
@@ -48,21 +47,16 @@ jobs:
               cd ${{ env.PROJECT_DIR }}
             fi
 
-            # Verify the contents of the project directory
-            echo "Listing project directory contents:"
-            ls -la
-
             # Install dependencies
             cd omanDashboard-backend
             npm install
 
-            # Ensure the environment file exists
-            if [ ! -f "${{ env.ENV_FILE_PATH }}" ]; then
-              echo ".env file is missing at ${{ env.ENV_FILE_PATH }}"
-              exit 1
-            else
-              echo ".env file found. Copying to project root."
+            # Copy environment file
+            if [ -f "${{ env.ENV_FILE_PATH }}" ]; then
               cp ${{ env.ENV_FILE_PATH }} .env
+            else
+              echo ".env file missing at ${{ env.ENV_FILE_PATH }}"
+              exit 1
             fi
 
             # Restart the application with PM2
@@ -120,7 +114,7 @@ jobs:
             sudo rm -rf /var/www/html/oman-frontend
 
             # Move new files to the deployment directory
-            sudo mv ~/deploy-temp/* /var/www/html/
+            sudo mv ~/deploy-temp/* /var/www/html/oman-frontend
 
             # Remove temporary deployment folder
             sudo rm -rf ~/deploy-temp
