@@ -36,7 +36,7 @@ app.use(`${BASE_PATH}/user`, userRoute);
 require("./src/helpers/connection");
 
 //? Define the directory where the files will be uploaded
-const uploadDir = "./uploads";
+const uploadDir = "/home/ubuntu/oman";
 //? Serve static files from the oman folder
 app.use("/images", express.static(uploadDir));
 
