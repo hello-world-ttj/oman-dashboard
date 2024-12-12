@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const UserSchema = mongoose.Schema(
   {
+    priority: { type: Number },
     name: {
       en: { type: String },
       ar: { type: String },

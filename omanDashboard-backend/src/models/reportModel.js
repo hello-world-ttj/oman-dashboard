@@ -2,7 +2,10 @@ const mongoose = require("mongoose");
 
 const ReportSchema = mongoose.Schema(
   {
-    image: { type: String },
+    image: {
+      en: { type: String },
+      ar: { type: String },
+    },
     media: {
       type: String,
     },
