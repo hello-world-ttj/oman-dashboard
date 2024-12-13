@@ -97,7 +97,7 @@ const AddMember = () => {
         }
       }
       const formData = {
-        priority: data?.priority,
+        priority: Number(data?.priority),
         name: {
           en: data?.en_name,
           ar: data?.ar_name,
