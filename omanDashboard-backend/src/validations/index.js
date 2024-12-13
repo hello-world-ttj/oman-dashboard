@@ -155,6 +155,7 @@ exports.createUserSchema = Joi.object({
 });
 
 exports.editUserSchema = Joi.object({
+  priority: Joi.number(),
   name: Joi.object({
     en: Joi.string(),
     ar: Joi.string(),
