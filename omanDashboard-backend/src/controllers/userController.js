@@ -128,7 +128,7 @@ exports.getAllUser = async (req, res) => {
     const data = await User.find(filter)
       .skip(skipCount)
       .limit(limit)
-      .sort({ createdAt: -1, _id: 1 })
+      .sort({ priority: 1 })
       .lean();
 
     return responseHandler(

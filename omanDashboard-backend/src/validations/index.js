@@ -135,6 +135,7 @@ exports.editReportSchema = Joi.object({
 });
 
 exports.createUserSchema = Joi.object({
+  priority: Joi.number().required(),
   name: Joi.object({
     en: Joi.string().required(),
     ar: Joi.string().required(),
