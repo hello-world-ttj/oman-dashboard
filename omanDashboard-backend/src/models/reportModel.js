@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 const ReportSchema = mongoose.Schema(
   {
-    image: {
+    media: {
       en: { type: String },
       ar: { type: String },
     },
-    media: {
+    image: {
       type: String,
     },
     status: {

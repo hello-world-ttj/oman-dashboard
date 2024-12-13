@@ -116,13 +116,20 @@ exports.editNewsSchema = Joi.object({
 
 exports.createReportSchema = Joi.object({
   image: Joi.string().required(),
-  media: Joi.string().required(),
+  media: Joi.object({
+    en: Joi.string().required(),
+    ar: Joi.string().required(),
+  }),
   status: Joi.string(),
   site: Joi.array().required(),
 });
 exports.editReportSchema = Joi.object({
   image: Joi.string(),
   media: Joi.string(),
+  title: Joi.object({
+    en: Joi.string(),
+    ar: Joi.string(),
+  }),
   status: Joi.string(),
   site: Joi.array(),
 });
