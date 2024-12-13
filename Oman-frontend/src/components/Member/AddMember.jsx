@@ -47,9 +47,9 @@ const AddMember = () => {
   ];
   useEffect(() => {
     if (isUpdate && member) {
+      setValue("priority", member?.priority || "");
       setValue("en_name", member?.name?.en || "");
       setValue("ar_name", member?.name?.ar || "");
-
       setValue("en_designation", member?.designation?.en || "");
       setValue("ar_designation", member?.designation?.ar || "");
       const selectedSite = member?.site?.map((Id) =>
