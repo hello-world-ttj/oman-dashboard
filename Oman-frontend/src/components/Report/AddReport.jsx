@@ -24,6 +24,7 @@ const AddReport = () => {
   const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState(null);
   const [mediaFile, setMediaFile] = useState(null);
+  const [mediaFileAr, setMediaFileAr] = useState(null);
   const { addReports, fetchReportById, singleReport, updateReport } =
     useReportStore();
   const navigate = useNavigate();
@@ -33,21 +34,25 @@ const AddReport = () => {
       fetchReportById(reportId);
     }
   }, [reportId, isUpdate, fetchReportById]);
+
   const siteOptions = [
     { value: "gulfchlorine", label: "Gulfchlorine" },
     { value: "unionchlorine", label: "Unionchlorine" },
     { value: "omanchlorine", label: "Omanchlorine" },
   ];
+
   useEffect(() => {
     if (singleReport && isUpdate) {
       setValue("image", singleReport?.image);
-      setValue("media", singleReport?.media);
+      setValue("media.en", singleReport?.media?.en);
+      setValue("media.ar", singleReport?.media?.ar);
       const selectedSite = singleReport?.site?.map((Id) =>
         siteOptions.find((option) => option?.value === Id)
       );
       setValue("site", selectedSite || []);
     }
   }, [singleReport, isUpdate, setValue]);
+
   const handleClear = (event) => {
     event.preventDefault();
     reset();
@@ -58,7 +63,8 @@ const AddReport = () => {
     try {
       setLoading(true);
       let imageUrl = data?.image || "";
-      let mediaUrl = data?.media || "";
+      let mediaEnUrl = data?.media?.en || "";
+      let mediaArUrl = data?.media?.ar || "";
 
       const uploadFile = async (file) => {
         try {
@@ -78,9 +84,17 @@ const AddReport = () => {
         }
       }
 
-      if (mediaUrl) {
+      if (mediaFile) {
         try {
-          mediaUrl = await uploadFile(mediaFile);
+          mediaEnUrl = await uploadFile(mediaFile);
+        } catch (error) {
+          return;
+        }
+      }
+
+      if (mediaFileAr) {
+        try {
+          mediaArUrl = await uploadFile(mediaFileAr);
         } catch (error) {
           return;
         }
@@ -88,14 +102,19 @@ const AddReport = () => {
 
       const formData = {
         image: imageUrl,
-        media: mediaUrl,
+        media: {
+          en: mediaEnUrl,
+          ar: mediaArUrl,
+        },
         site: data?.site.map((i) => i.value),
       };
+
       if (isUpdate && reportId) {
         await updateReport(reportId, formData);
       } else {
         await addReports(formData);
       }
+
       reset();
       navigate("/reports");
     } catch (error) {
@@ -114,6 +133,7 @@ const AddReport = () => {
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={4}>
+          {/* Photo Upload */}
           <Grid item xs={12}>
             <Typography
               sx={{ marginBottom: 1 }}
@@ -145,23 +165,25 @@ const AddReport = () => {
               )}
             />
           </Grid>
+
+          {/* English Media Upload */}
           <Grid item xs={12}>
             <Typography
               sx={{ marginBottom: 1 }}
               variant="h6"
               color="textSecondary"
             >
-              Media
+              English Media
             </Typography>
             <Controller
-              name="media"
+              name="media.en"
               control={control}
               defaultValue=""
-              rules={{ required: "Media is required" }}
+              rules={{ required: "English Media is required" }}
               render={({ field: { onChange, value } }) => (
                 <>
                   <StyledEventUpload
-                    label="Upload Pdf here"
+                    label="Upload PDF here"
                     onChange={(file) => {
                       setMediaFile(file);
                       onChange(file);
@@ -169,19 +191,56 @@ const AddReport = () => {
                     isUpdate={isUpdate}
                     value={value}
                   />
-                  {errors.media && (
-                    <span style={{ color: "red" }}>{errors.media.message}</span>
+                  {errors.media?.en && (
+                    <span style={{ color: "red" }}>
+                      {errors.media.en.message}
+                    </span>
                   )}
                 </>
               )}
             />
           </Grid>
+
+          {/* Arabic Media Upload */}
+          <Grid item xs={12}>
+            <Typography
+              sx={{ marginBottom: 1 }}
+              variant="h6"
+              color="textSecondary"
+            >
+              Arabic Media
+            </Typography>
+            <Controller
+              name="media.ar"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Arabic Media is required" }}
+              render={({ field: { onChange, value } }) => (
+                <>
+                  <StyledEventUpload
+                    label="Upload PDF here"
+                    onChange={(file) => {
+                      setMediaFileAr(file);
+                      onChange(file);
+                    }}
+                    isUpdate={isUpdate}
+                    value={value}
+                  />
+                  {errors.media?.ar && (
+                    <span style={{ color: "red" }}>
+                      {errors.media.ar.message}
+                    </span>
+                  )}
+                </>
+              )}
+            />
+          </Grid>
+
+          {/* Site Selection */}
           <Grid item xs={12}>
             <Typography variant="h6" color="textSecondary">
               Site
             </Typography>
-          </Grid>
-          <Grid item xs={12}>
             <Controller
               name="site"
               control={control}
@@ -202,6 +261,8 @@ const AddReport = () => {
               )}
             />
           </Grid>
+
+          {/* Buttons */}
           <Grid item xs={6}></Grid>
           <Grid item xs={6}>
             <Stack direction={"row"} spacing={2} justifyContent={"flex-end"}>

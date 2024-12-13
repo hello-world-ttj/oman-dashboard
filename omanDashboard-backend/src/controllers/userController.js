@@ -46,12 +46,7 @@ exports.getUser = async (req, res) => {
 
     const findUser = await User.findById(id);
     if (findUser) {
-      return responseHandler(
-        res,
-        200,
-        `User found successfull..!`,
-        findUser
-      );
+      return responseHandler(res, 200, `User found successfull..!`, findUser);
     }
   } catch (error) {
     return responseHandler(res, 500, `Internal Server Error ${error.message}`);
@@ -117,7 +112,7 @@ exports.deleteUser = async (req, res) => {
 
 exports.getAllUser = async (req, res) => {
   try {
-    const { pageNo = 1, search, type, site,limit = 10 } = req.query;
+    const { pageNo = 1, search, type, site, limit = 10 } = req.query;
     const skipCount = 10 * (pageNo - 1);
     const filter = {};
     if (type) {
@@ -127,9 +122,7 @@ exports.getAllUser = async (req, res) => {
       filter.site = { $in: [site] };
     }
     if (search) {
-      filter.$or = [
-        { "name.en": { $regex: search, $options: "i" } },
-      ];
+      filter.$or = [{ "name.en": { $regex: search, $options: "i" } }];
     }
     const totalCount = await User.countDocuments(filter);
     const data = await User.find(filter)

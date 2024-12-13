@@ -37,6 +37,8 @@ const AddMember = () => {
   const typeOptions = [
     { value: "team", label: "Team Member" },
     { value: "board", label: "Board Member" },
+    { value: "audit", label: "Audit Committee" },
+    { value: "remuneration", label: "Remuneration Committee" },
   ];
   const siteOptions = [
     { value: "gulfchlorine", label: "Gulfchlorine" },
@@ -95,6 +97,7 @@ const AddMember = () => {
         }
       }
       const formData = {
+        priority: data?.priority,
         name: {
           en: data?.en_name,
           ar: data?.ar_name,
@@ -138,6 +141,32 @@ const AddMember = () => {
         >
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography variant="h6" color="textSecondary">
+                  Priority
+                </Typography>{" "}
+              </Grid>
+              <Grid item xs={6}>
+                <Controller
+                  name="priority"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "Priority is required" }}
+                  render={({ field }) => (
+                    <>
+                      <StyledInput
+                        placeholder="Enter the Priority"
+                        {...field}
+                      />
+                      {errors.en_name && (
+                        <span style={{ color: "red" }}>
+                          {errors.en_name.message}
+                        </span>
+                      )}
+                    </>
+                  )}
+                />
+              </Grid>
               <Grid item xs={12}>
                 <Typography variant="h6" color="textSecondary">
                   Name
