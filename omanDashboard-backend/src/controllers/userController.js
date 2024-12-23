@@ -2,6 +2,7 @@ const fs = require("fs");
 const responseHandler = require("../helpers/responseHandler");
 const User = require("../models/userModel");
 const validations = require("../validations");
+const sendSelfMail = require("../utils/sendSelfMail");
 const uploadDir = "./uploads";
 
 exports.createUser = async (req, res) => {
@@ -138,6 +139,30 @@ exports.getAllUser = async (req, res) => {
       data,
       totalCount
     );
+  } catch (error) {
+    return responseHandler(res, 500, `Internal Server Error ${error.message}`);
+  }
+};
+
+exports.sendMail = async (req, res) => {
+  try {
+    const { from, subject, text, to } = req.body;
+    const attachment = req.file;
+
+    if (!from || !subject || !text || !to) {
+      return responseHandler(res, 400, "Missing required fields");
+    }
+
+    const data = {
+      from,
+      subject,
+      text,
+      attachment,
+    };
+
+    await sendSelfMail(data, to);
+
+    return responseHandler(res, 200, "Email sent successfully");
   } catch (error) {
     return responseHandler(res, 500, `Internal Server Error ${error.message}`);
   }
