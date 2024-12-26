@@ -75,37 +75,48 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      let imageUrl = data?.image || "";
-      let bannerUrl = data?.banner || "";
-
+  
+      // Helper function to handle file uploads
       const uploadFile = async (file) => {
         try {
-          const response = await uploadFileToS3(file);
-          return response.data;
+          return await new Promise((resolve, reject) => {
+            uploadFileToS3(
+              file,
+              (location) => resolve(location),
+              (error) => reject(error)
+            );
+          });
         } catch (error) {
           console.error("Failed to upload file:", error);
           throw error;
         }
       };
-
+  
+      // Upload image if provided
+      let imageUrl = data?.image || "";
       if (imageFile) {
         try {
           imageUrl = await uploadFile(imageFile);
         } catch (error) {
+          toast.error("Failed to upload image.");
           return;
         }
       }
-
+  
+      // Upload banner if provided
+      let bannerUrl = data?.banner || "";
       if (bannerUrl) {
         try {
           bannerUrl = await uploadFile(bannerUrl);
         } catch (error) {
+          toast.error("Failed to upload banner.");
           return;
         }
       }
-
+  
+      // Prepare the form data
       const formData = {
-        tag: data.category.value,
+        tag: data.category?.value,
         title: {
           en: data.en_title,
           ar: data.ar_title,
@@ -115,24 +126,27 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
           ar: data.ar_content,
         },
         image: imageUrl,
-        site: data?.site.map((i) => i.value),
+        site: data?.site?.map((i) => i.value) || [],
         banner: bannerUrl,
       };
+  
+      // Call the appropriate API function based on the update status
       if (isUpdate && id) {
         await updateNews(id, formData);
       } else {
         await addNewses(formData);
         setSelectedTab(0);
       }
-
-      
+  
       navigate(`/news`);
     } catch (error) {
-      toast.error(error.message);
+      console.error("Error submitting form:", error);
+      toast.error(error.message || "An unexpected error occurred.");
     } finally {
       setLoading(false);
     }
   };
+  
   const baseURL = import.meta.env.VITE_API_IMAGE_URL;
   return (
     <Box

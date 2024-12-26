@@ -44,6 +44,6 @@ export const deleteReport = async (id) => {
 
     return response.data;
   } catch (error) {
-    console.error(error.response.data.message);
+    throw error.response.data;
   }
 };

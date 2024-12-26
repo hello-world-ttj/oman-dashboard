@@ -58,20 +58,17 @@ const AddGallery = () => {
       setLoading(true);
       let imageUrl = data?.image || "";
 
-      const uploadFile = async (file) => {
-        try {
-          const response = await uploadFileToS3(file);
-          return response.data;
-        } catch (error) {
-          console.error("Failed to upload file:", error);
-          throw error;
-        }
-      };
-
       if (imageFile) {
         try {
-          imageUrl = await uploadFile(imageFile);
+          imageUrl = await new Promise((resolve, reject) => {
+            uploadFileToS3(
+              imageFile,
+              (location) => resolve(location),
+              (error) => reject(error)
+            );
+          });
         } catch (error) {
+          console.error("Failed to upload image:", error);
           return;
         }
       }
