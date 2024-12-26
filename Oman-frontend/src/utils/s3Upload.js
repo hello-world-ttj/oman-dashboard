@@ -21,7 +21,6 @@ const uploadFileToS3 = async (file, onSuccess, onError) => {
   };
 
   
-console.log("params",params);
 
   try {
     const command = new PutObjectCommand(params);

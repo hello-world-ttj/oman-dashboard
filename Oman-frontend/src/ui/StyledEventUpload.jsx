@@ -173,7 +173,7 @@ export const StyledEventUpload = ({ label, value, onChange, isUpdate }) => {
           <MediaPreview>
             {mediaType === "image" ? (
               <ImagePreview
-                src={isUpdate && !fileName ? `${baseURL}${value}` : selectedMedia}
+                src={isUpdate && !fileName ? `${value}` : selectedMedia}
                 alt="Image Preview"
               />
             ) : mediaType === "video" ? (

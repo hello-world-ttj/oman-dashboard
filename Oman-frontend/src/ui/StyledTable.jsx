@@ -290,7 +290,7 @@ const StyledTable = ({
                         ].includes(column.field) ? (
                         <>
                           <img
-                            src={`${baseURL}${row[column.field]}`}
+                            src={`${row[column.field]}`}
                             alt={column.title}
                             style={{ width: "50px", height: "50px" }}
                           />{" "}
