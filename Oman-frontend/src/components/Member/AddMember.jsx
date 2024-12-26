@@ -78,6 +78,7 @@ const AddMember = () => {
       setLoadings(true);
       let imageUrl = data?.image || "";
 
+      
       if (imageFile) {
         try {
           imageUrl = await new Promise((resolve, reject) => {
