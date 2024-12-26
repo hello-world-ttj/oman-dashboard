@@ -10,6 +10,7 @@ import { StyledEventUpload } from "../../ui/StyledEventUpload";
 import { useReportStore } from "../../store/reportStore";
 import StyledSelectField from "../../ui/StyledSelectField";
 import uploadFileToS3 from "../../utils/s3Upload";
+import StyledCropImage from "../../ui/StyledCropImage";
 
 const AddReport = () => {
   const {
@@ -62,67 +63,50 @@ const AddReport = () => {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      let imageUrl = data?.image || "";
-      let mediaEnUrl = data?.media?.en || "";
-      let mediaArUrl = data?.media?.ar || "";
-
-      const uploadFile = async (file) => {
+  
+      const uploadFileSafely = async (file) => {
+        if (!file) return "";
         try {
-          const response = await uploadFileToS3(file);
-          return response.data;
+          const location = await new Promise((resolve, reject) => {
+            uploadFileToS3(file, resolve, reject);
+          });
+          return location;
         } catch (error) {
-          console.error("Failed to upload file:", error);
+          toast.error(`Failed to upload file: ${file.name || "unknown file"}`);
           throw error;
         }
       };
-
-      if (imageFile) {
-        try {
-          imageUrl = await uploadFile(imageFile);
-        } catch (error) {
-          return;
-        }
-      }
-
-      if (mediaFile) {
-        try {
-          mediaEnUrl = await uploadFile(mediaFile);
-        } catch (error) {
-          return;
-        }
-      }
-
-      if (mediaFileAr) {
-        try {
-          mediaArUrl = await uploadFile(mediaFileAr);
-        } catch (error) {
-          return;
-        }
-      }
-
+  
+      // Upload files if provided
+      const imageUrl = await uploadFileSafely(imageFile) || data.image;
+      const mediaEnUrl = await uploadFileSafely(mediaFile) || data.media?.en;
+      const mediaArUrl = await uploadFileSafely(mediaFileAr) || data.media?.ar;
+  
+      // Construct the formData
       const formData = {
         image: imageUrl,
         media: {
           en: mediaEnUrl,
           ar: mediaArUrl,
         },
-        site: data?.site.map((i) => i.value),
+        site: data.site.map((i) => i.value),
       };
-
+  
       if (isUpdate && reportId) {
         await updateReport(reportId, formData);
       } else {
         await addReports(formData);
       }
-
+  
       reset();
       navigate("/reports");
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message || "An unexpected error occurred");
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <Box
@@ -149,7 +133,7 @@ const AddReport = () => {
               rules={{ required: "Photo is required" }}
               render={({ field: { onChange, value } }) => (
                 <>
-                  <StyledEventUpload
+                  <StyledCropImage
                     label="Upload Photo here"
                     onChange={(file) => {
                       setImageFile(file);

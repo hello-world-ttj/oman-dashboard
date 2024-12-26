@@ -38,7 +38,7 @@ const NewsPreview = ({ open, onClose, data }) => {
       <CardMedia
         component="img"
         height="120"
-        image={`${baseURL}${data?.banner}`}
+        image={`${data?.banner}`}
         alt="News Banner"
         sx={{ objectFit: "cover", borderRadius: "8px", margin: "0px" }}
       />
@@ -50,7 +50,7 @@ const NewsPreview = ({ open, onClose, data }) => {
               <CardMedia
                 component="img"
                 height="100%"
-                image={`${baseURL}${data?.image}`}
+                image={`${data?.image}`}
                 alt="News Image"
                 sx={{ objectFit: "cover", borderRadius: "8px" }}
               />

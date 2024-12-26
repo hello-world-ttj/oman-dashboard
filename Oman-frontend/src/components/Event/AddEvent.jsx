@@ -9,6 +9,7 @@ import { useEventStore } from "../../store/eventStore.js";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import StyledSelectField from "../../ui/StyledSelectField.jsx";
+import StyledCropImage from "../../ui/StyledCropImage.jsx";
 
 export default function AddEvent({ setSelectedTab, isUpdate }) {
   const {
@@ -180,7 +181,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                   rules={{ required: "Image is required" }}
                   render={({ field: { onChange, value } }) => (
                     <>
-                      <StyledEventUpload
+                      <StyledCropImage
                         label="Upload image here"
                         onChange={(file) => {
                           setImageFile(file);

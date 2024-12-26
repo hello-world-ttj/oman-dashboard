@@ -43,7 +43,7 @@ const ProductView = ({ open, onClose, data }) => {
                             <CardMedia
                                 component="img"
                                 height="200"
-                                image={`${baseURL}${data?.image}`}
+                                image={`${data?.image}`}
                                 alt={data?.title?.en}
                                 sx={{ objectFit: "contain" }}
                             />

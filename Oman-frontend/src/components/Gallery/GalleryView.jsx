@@ -54,7 +54,7 @@ import {
                   <CardMedia
                     component="img"
                     height="300"
-                    image={`${baseURL}${data?.image}`}
+                    image={`${data?.image}`}
                     alt={data?.title?.en}
                     sx={{ objectFit: "contain", width: "100%", maxWidth: "400px" }}
                   />

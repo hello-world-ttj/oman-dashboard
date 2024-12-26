@@ -10,6 +10,7 @@ import uploadFileToS3 from "../../utils/s3Upload";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useMemberStore } from "../../store/Memberstore";
+import StyledCropImage from "../../ui/StyledCropImage";
 
 const AddMember = () => {
   const {
@@ -276,7 +277,7 @@ const AddMember = () => {
                   rules={{ required: "Photo is required" }}
                   render={({ field: { onChange, value } }) => (
                     <>
-                      <StyledEventUpload
+                      <StyledCropImage
                         label="Upload Photo here"
                         onChange={(file) => {
                           setImageFile(file);
