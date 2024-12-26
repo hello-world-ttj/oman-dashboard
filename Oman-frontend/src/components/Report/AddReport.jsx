@@ -10,6 +10,7 @@ import { StyledEventUpload } from "../../ui/StyledEventUpload";
 import { useReportStore } from "../../store/reportStore";
 import StyledSelectField from "../../ui/StyledSelectField";
 import uploadFileToS3 from "../../utils/s3Upload";
+import StyledCropImage from "../../ui/StyledCropImage";
 
 const AddReport = () => {
   const {
@@ -132,7 +133,7 @@ const AddReport = () => {
               rules={{ required: "Photo is required" }}
               render={({ field: { onChange, value } }) => (
                 <>
-                  <StyledEventUpload
+                  <StyledCropImage
                     label="Upload Photo here"
                     onChange={(file) => {
                       setImageFile(file);

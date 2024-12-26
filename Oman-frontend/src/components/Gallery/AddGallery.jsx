@@ -10,6 +10,7 @@ import { uploadDocs } from "../../api/adminapi";
 import { useGalleryStore } from "../../store/galleryStore";
 import StyledSelectField from "../../ui/StyledSelectField";
 import uploadFileToS3 from "../../utils/s3Upload";
+import StyledCropImage from "../../ui/StyledCropImage";
 
 const AddGallery = () => {
   const {
@@ -168,7 +169,7 @@ const AddGallery = () => {
               rules={{ required: "Photo is required" }}
               render={({ field: { onChange, value } }) => (
                 <>
-                  <StyledEventUpload
+                  <StyledCropImage
                     label="Upload Photo here"
                     onChange={(file) => {
                       setImageFile(file);

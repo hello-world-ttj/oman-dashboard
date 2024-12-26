@@ -11,6 +11,7 @@ import { useNewsStore } from "../../store/newsStore";
 import uploadFileToS3 from "../../utils/s3Upload";
 import { toast } from "react-toastify";
 import { uploadDocs } from "../../api/adminapi";
+import StyledCropImage from "../../ui/StyledCropImage";
 
 export default function AddNews({ isUpdate, setSelectedTab }) {
   const {
@@ -241,7 +242,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
               // rules={{ required: "File is required" }}
               render={({ field: { onChange, value } }) => (
                 <>
-                  <StyledEventUpload
+                  <StyledCropImage
                     label="Upload image here" isUpdate={isUpdate}
                     onChange={(file) => {
                       setImageFile(file);
@@ -271,7 +272,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
               // rules={{ required: "File is required" }}
               render={({ field: { onChange, value } }) => (
                 <>
-                  <StyledEventUpload
+                  <StyledCropImage
                     label="Upload Banner here" isUpdate={isUpdate}
                     onChange={(file) => {
                       setBannerFile(file);
