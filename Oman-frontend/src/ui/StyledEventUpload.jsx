@@ -143,7 +143,7 @@ export const StyledEventUpload = ({ label, value, onChange, isUpdate }) => {
       setSelectedMedia(value); // Set URL or base64 string
     }
   }, [value]);
-  console.log("vidyo", value);
+  // console.log("vidyo", value);
 
   return (
     <>
