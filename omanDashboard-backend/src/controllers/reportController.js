@@ -99,12 +99,6 @@ exports.deleteReport = async (req, res) => {
     }
 
     const findReport = await Report.findById(id);
-    const absolutePath = `${uploadDir}/${findReport.image}`;
-    const absolutePathMedia = `${uploadDir}/${findReport.media}`;
-    await fs.promises.access(absolutePathMedia);
-    await fs.promises.unlink(absolutePathMedia);
-    await fs.promises.access(absolutePath);
-    await fs.promises.unlink(absolutePath);
     if (!findReport) {
       return responseHandler(res, 404, "Report not found");
     }

@@ -99,9 +99,6 @@ exports.deleteGallery = async (req, res) => {
     }
 
     const findGallery = await Gallery.findById(id);
-    const absolutePath = `${uploadDir}/${findGallery.image}`;
-    await fs.promises.access(absolutePath);
-    await fs.promises.unlink(absolutePath);
     if (!findGallery) {
       return responseHandler(res, 404, "Gallery not found");
     }

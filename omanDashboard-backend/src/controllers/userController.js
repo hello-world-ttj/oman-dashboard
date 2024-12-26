@@ -95,9 +95,6 @@ exports.deleteUser = async (req, res) => {
     }
 
     const findUser = await User.findById(id);
-    const absolutePath = `${uploadDir}/${findUser.image}`;
-    await fs.promises.access(absolutePath);
-    await fs.promises.unlink(absolutePath);
     if (!findUser) {
       return responseHandler(res, 404, "User not found");
     }

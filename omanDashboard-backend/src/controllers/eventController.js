@@ -94,9 +94,6 @@ exports.deleteEvent = async (req, res) => {
     }
 
     const findEvent = await Event.findById(id);
-    const absolutePath = `${uploadDir}/${findEvent.image}`;
-    await fs.promises.access(absolutePath);
-    await fs.promises.unlink(absolutePath);
     if (!findEvent) {
       return responseHandler(res, 404, "Event not found");
     }

@@ -101,9 +101,6 @@ exports.deleteNews = async (req, res) => {
     }
 
     const findNews = await News.findById(id);
-    const absolutePath = `${uploadDir}/${findNews.image}`;
-    await fs.promises.access(absolutePath);
-    await fs.promises.unlink(absolutePath);
     if (!findNews) {
       return responseHandler(res, 404, "News not found");
     }
