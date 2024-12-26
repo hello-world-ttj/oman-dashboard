@@ -53,7 +53,7 @@ const EventView = ({ open, onClose, data }) => {
             <Grid item xs={12} md={6}>
               <CardMedia
                 component="img"
-                image={`${baseURL}${data?.image}`}
+                image={`${data?.image}`}
                 alt={data?.title?.en}
                 sx={{
                   borderRadius: "12px",

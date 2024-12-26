@@ -41,7 +41,7 @@ const ReportView = ({ open, onClose, data }) => {
           {data?.image && (
             <CardMedia
               component="img"
-              image={`${baseURL}${data?.image}`}
+              image={`${data?.image}`}
               alt="Report Image"
               sx={{
                 borderRadius: "12px",
@@ -63,7 +63,7 @@ const ReportView = ({ open, onClose, data }) => {
                   backgroundColor: "#c1172b",
                 },
               }}
-              href={`${baseURL}${data?.media}`}
+              href={`${data?.media}`}
               target="_blank"
             >
               View/Download Report PDF

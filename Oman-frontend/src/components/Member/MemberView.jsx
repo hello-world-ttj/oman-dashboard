@@ -49,7 +49,7 @@ const MemberView = ({ open, onClose, data }) => {
             >
               <CardMedia
                 component="img"
-                image={`${baseURL}${data?.image}`}
+                image={`${data?.image}`}
                 alt={data?.name?.en}
                 sx={{
                   width: "100%",
