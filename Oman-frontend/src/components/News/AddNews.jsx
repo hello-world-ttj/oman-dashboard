@@ -80,7 +80,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
 
       const uploadFile = async (file) => {
         try {
-          const response = await uploadDocs(file);
+          const response = await uploadFileToS3(file);
           return response.data;
         } catch (error) {
           console.error("Failed to upload file:", error);

@@ -9,6 +9,7 @@ import { StyledEventUpload } from "../../ui/StyledEventUpload";
 import { uploadDocs } from "../../api/adminapi";
 import { useGalleryStore } from "../../store/galleryStore";
 import StyledSelectField from "../../ui/StyledSelectField";
+import uploadFileToS3 from "../../utils/s3Upload";
 
 const AddGallery = () => {
   const {
@@ -59,7 +60,7 @@ const AddGallery = () => {
 
       const uploadFile = async (file) => {
         try {
-          const response = await uploadDocs(file);
+          const response = await uploadFileToS3(file);
           return response.data;
         } catch (error) {
           console.error("Failed to upload file:", error);

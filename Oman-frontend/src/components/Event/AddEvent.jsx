@@ -8,7 +8,6 @@ import uploadFileToS3 from "../../utils/s3Upload.js";
 import { useEventStore } from "../../store/eventStore.js";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { uploadDocs } from "../../api/adminapi.js";
 import StyledSelectField from "../../ui/StyledSelectField.jsx";
 
 export default function AddEvent({ setSelectedTab, isUpdate }) {
@@ -67,13 +66,12 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
       let imageUrl = data?.event_image || "";
       if (imageFile) {
         try {
-          imageUrl = await new Promise(async (resolve, reject) => {
-            try {
-              const response = await uploadDocs(imageFile);
-              resolve(response.data);
-            } catch (error) {
-              reject(error);
-            }
+          imageUrl = await new Promise((resolve, reject) => {
+            uploadFileToS3(
+              imageFile,
+              (location) => resolve(location),
+              (error) => reject(error)
+            );
           });
         } catch (error) {
           console.error("Failed to upload image:", error);

@@ -8,8 +8,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { StyledMultilineTextField } from "../../ui/StyledMultilineTextField";
 import { StyledEventUpload } from "../../ui/StyledEventUpload";
 import { useReportStore } from "../../store/reportStore";
-import { uploadDocs } from "../../api/adminapi";
 import StyledSelectField from "../../ui/StyledSelectField";
+import uploadFileToS3 from "../../utils/s3Upload";
 
 const AddReport = () => {
   const {
@@ -68,7 +68,7 @@ const AddReport = () => {
 
       const uploadFile = async (file) => {
         try {
-          const response = await uploadDocs(file);
+          const response = await uploadFileToS3(file);
           return response.data;
         } catch (error) {
           console.error("Failed to upload file:", error);
