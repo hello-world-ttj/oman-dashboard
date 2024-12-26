@@ -20,7 +20,7 @@ const uploadFileToS3 = async (file, onSuccess, onError) => {
     Body: file,
   };
 
-console.log("params",REGION);
+console.log("params",params);
 
   try {
     const command = new PutObjectCommand(params);
