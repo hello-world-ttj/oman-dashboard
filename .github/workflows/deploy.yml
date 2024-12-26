@@ -1,4 +1,4 @@
-name: Deploy Counselling App to AWS Lightsail
+name: Deploy Chroline App to AWS Lightsail
 
 on:
   push:
@@ -86,6 +86,10 @@ jobs:
       - name: Install Dependencies and Build
         env:
           VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+          VITE_APP_AWS_S3_BUCKET: ${{ secrets.VITE_APP_AWS_S3_BUCKET }}
+          VITE_APP_AWS_REGION: ${{ secrets.VITE_APP_AWS_REGION }}
+          VITE_APP_AWS_ACCESS_KEY_ID: ${{ secrets.VITE_APP_AWS_ACCESS_KEY_ID }}
+          VITE_APP_AWS_SECRET_ACCESS_KEY: ${{ secrets.VITE_APP_AWS_SECRET_ACCESS_KEY }}
         run: |
           cd Oman-frontend
           npm ci
