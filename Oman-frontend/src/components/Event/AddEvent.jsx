@@ -181,7 +181,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                   rules={{ required: "Image is required" }}
                   render={({ field: { onChange, value } }) => (
                     <>
-                      <StyledCropImage
+                      <StyledEventUpload
                         label="Upload image here"
                         onChange={(file) => {
                           setImageFile(file);
