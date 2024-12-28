@@ -171,7 +171,7 @@ export const StyledCropImage = ({ label, value, onChange, ratio }) => {
             image={imageForCrop}
             crop={crop}
             zoom={zoom}
-            aspect={2918 / 3944}
+            aspect={2500 / 3000}
             onCropChange={setCrop}
             onZoomChange={setZoom}
             onCropComplete={onCropComplete}
