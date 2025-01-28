@@ -295,7 +295,7 @@ const StyledTable = ({
                             style={{ width: "50px", height: "50px" }}
                           />{" "}
                         </>
-                      ) : column.field === "site" ? (
+                      ) : column.field === "site" || column.field === "type" ? (
                         <Box
                           display="flex"
                           alignItems="center"
